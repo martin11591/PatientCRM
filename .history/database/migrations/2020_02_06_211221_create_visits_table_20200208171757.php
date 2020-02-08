@@ -15,8 +15,6 @@ class CreateVisitTable extends Migration
     {
         Schema::create('visits', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('date');
             $table->text('comment')->nullable();
         });

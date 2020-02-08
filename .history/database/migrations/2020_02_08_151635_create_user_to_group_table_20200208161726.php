@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVisitTable extends Migration
+class CreateUserToGroupTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateVisitTable extends Migration
      */
     public function up()
     {
-        Schema::create('visits', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('user_to_group', function (Blueprint $table) {
             $table->bigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamp('date');
-            $table->text('comment')->nullable();
+            $table->bigInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 
@@ -29,6 +28,6 @@ class CreateVisitTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visit');
+        Schema::dropIfExists('user_to_group');
     }
 }
