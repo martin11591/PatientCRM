@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMedicinesOnPrescriptionTable extends Migration
+class CreatePrescriptionIssuedToUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateMedicinesOnPrescriptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('medicines_on_prescription', function (Blueprint $table) {
+        Schema::create('prescription_issued_to_user', function (Blueprint $table) {
             $table->unsignedBigInteger('prescription_id');
             $table->foreign('prescription_id')->references('id')->on('prescriptions');
-            $table->unsignedBigInteger('medicine_id');
-            $table->foreign('medicine_id')->references('id')->on('medicines');
-            $table->integer('count');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->timestamp('issue_date');
+            $table->timestamp('expiration_date');
+            $table->text('comment')->nullable();
         });
     }
 
@@ -29,6 +31,6 @@ class CreateMedicinesOnPrescriptionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medicines_on_prescription');
+        Schema::dropIfExists('prescription_issued_to_user');
     }
 }

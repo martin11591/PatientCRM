@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->text('names');
             $table->text('surnames');
             $table->string('user_doc_id');
-            $table->timestamp('birth_date')->nullable();
+            $table->timestamp('birth_date');
             $table->string('birth_zip_code');
             $table->string('birth_city');
             $table->string('birth_country');

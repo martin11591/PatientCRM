@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserToGroupTable extends Migration
+class CreatePrescriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateUserToGroupTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_to_group', function (Blueprint $table) {
+        Schema::create('prescriptions', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('group_user_id');
-            $table->foreign('group_user_id')->references('id')->on('group_users');
+            $table->text('comment')->nullable();
         });
     }
 
@@ -28,6 +28,6 @@ class CreateUserToGroupTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_to_group');
+        Schema::dropIfExists('prescription');
     }
 }
