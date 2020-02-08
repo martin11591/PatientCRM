@@ -20,9 +20,4 @@ return [
     'password_reset_message'      => 'Resetuj hasło',
     'reset_password'              => 'Resetuj hasło',
     'send_password_reset_link'    => 'Wyślij link do resetowania hasła',
-    'verify_message'              => 'Twoje konto wymaga weryfikacji',
-    'verify_email_sent'           => 'Link weryfikacyjny został wysłany na podany adres email.',
-    'verify_check_your_email'     => 'Sprawdź pocztę, czy otrzymałeś link, zanim kontynuujesz.',
-    'verify_if_not_recieved'      => 'Jeśli nie otrzymałeś wiadomości z linkiem',
-    'verify_request_another'      => 'kliknij tutaj aby zażądać kolejnej',
 ];
