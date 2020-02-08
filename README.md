@@ -1,79 +1,262 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+PRZYWILEJ
+=
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+ID
 
-## About Laravel
+Opis
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Wartość
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1, Zezwól na wyświetlanie
 
-## Learning Laravel
+2, Zezwól na dodawanie
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3, Zezwól na edytowanie
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4, Zezwól na usuwanie
 
-## Laravel Sponsors
+GRUPA UŻYTKOWNIKÓW
+=
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+ID
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+Nazwa grupy
 
-## Contributing
+Prawa grupy
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Administrator
+-
 
-## Code of Conduct
+1, Administrator, 1,2,3,4
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Lekarz
+-
 
-## Security Vulnerabilities
+2, Lekarz, 1,2,3,4
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Recepcjonista
+-
 
-## License
+3, Recepcjonista, 1,2,3,4
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# PatientCRM" 
+Pacjent
+-
+
+4, Pacjent, 1,2,3,4
+
+UŻYTKOWNICY
+=
+
+ID użytkownika
+
+Imię/imiona
+
+Nazwiska
+
+Data urodzenia
+
+PESEL lub inny ID
+
+Miejsce urodzenia - Kod pocztowy
+
+Miejsce urodzenia - Miasto
+
+Miejsce urodzenia - Kraj
+
+Adres zameldowania - Ulica i nr domu
+
+Adres zameldowania - Kod pocztowy
+
+Adres zameldowania - Miasto
+
+Adres zameldowania - Kraj
+
+Adres korespondencyjny - Ulica i nr domu
+
+Adres korespondencyjny - Kod pocztowy
+
+Adres korespondencyjny - Miasto
+
+Adres korespondencyjny - Kraj
+
+Telefon
+
+Mail
+
+PACJENCI - UPOWAŻNIENIA BLISKICH
+=
+
+ID użytkownika (pacjenta)
+
+ID innego użytkownika LUB imię i nazwisko jeżeli poza systemem
+
+KARTA PACJENTA
+=
+
+ID użytkownika (jeden)
+
+ID wizyt
+
+ID chorób
+
+ID leków
+
+ID recept
+
+ID lekarzy
+
+---
+PRZYKŁAD
+-
+---
+1(kowalski), 1, null, null, null, null
+
+RODZAJE WIZYT
+=
+
+ID
+
+Typ
+
+1, Publiczna
+
+2, Prywatna
+
+3, Badanie
+
+4, Leczenie
+
+5, Kontrolna
+
+6, Nagła
+
+WIZYTA
+=
+
+ID wizyty
+
+Data
+
+Opis wizyty
+
+POJEDYNCZA WIZYTA <-> TYP
+=
+
+ID wizyty
+
+ID typów wizyty
+
+POJEDYNCZA WIZYTA <-> LEKARZE
+-
+
+ID wizyty
+
+ID lekarzy przyjmujących (not null)
+
+POJEDYNCZA WIZYTA <-> CHOROBY
+-
+
+ID wizyty
+
+ID wykrytych chorób (null possible)
+
+POJEDYNCZA WIZYTA <-> LEKI
+-
+
+ID wizyty
+
+ID przepisanych leków (null possible)
+
+POJEDYNCZA WIZYTA <-> RECEPTY
+-
+
+ID wizyty
+
+ID recept (null possible)
+
+1, 2020-02-06, zapoznanie
+
+2, 2020-02-07, zalecenie
+
+SPECJALIZACJA
+=
+
+ID specjalizacji
+
+Nazwa specjalizacji
+
+ID użytkowników tej specjalizacji
+
+RECEPTA LEKARZA
+=
+
+ID recepty
+
+ID lekarza (użytkownika) wystawiającego
+
+Data wystawienia
+
+Data ważności
+
+RECEPTA LEKARZA <-> LEKI
+
+ID recepty (not unique)
+
+ID leku
+
+GRUPY LEKÓW
+=
+
+ID grupy leków
+
+Nazwa grupy leków
+
+LEKI
+=
+
+ID leku
+
+Nazwa leku
+
+ID grupy leków
+
+Cena (średnia)
+
+ZAMIENNIKI LEKÓW
+=
+
+ID leku
+
+ID leku zamiennika
+
+GRUPY CHORÓB
+=
+
+ID grupy chorób
+
+Nazwa grupy chorób
+
+CHOROBY
+=
+
+ID chorób
+
+Nazwa choroby
+
+ID grupy chorób
+
+WSKAZANIA LEK <-> CHOROBA
+=
+
+ID leku
+
+ID chorób
+
+PRZECIWWSKAZANIA LEK <-> CHOROBA
+=
+
+ID leku
+
+ID chorób
