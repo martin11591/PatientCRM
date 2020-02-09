@@ -49,12 +49,9 @@ class UserProfileController extends Controller
      * @param  \App\UserProfile  $userProfile
      * @return \Illuminate\Http\Response
      */
-    public function show($id = null)
+    public function show(UserProfile $userProfile)
     {
-        if ($id === null) {
-            $id = auth()->user()->id;
-            $userProfile = UserProfile::where('user_id', $id)->firstOrFail();
-        } else $userProfile = UserProfile::findOrFail($id);
+        $userProfile = $this->isUserGiven($userProfile);
         $userProfile->birth = ($userProfile->birth_zip_code != null ? $userProfile->birth_zip_code . ' ' : '') . ($userProfile->birth_city != null ? $userProfile->birth_city . ', ' : '') . ($userProfile->birth_country != null ? $userProfile->birth_country : '');
         $userProfile->registered = ($userProfile->registered_zip_code != null ? $userProfile->registered_zip_code . ' ' : '') . ($userProfile->registered_city != null ? $userProfile->registered_city . ', ' : '') . ($userProfile->registered_country != null ? $userProfile->registered_country : '');
         $userProfile->correspondence = ($userProfile->correspondence_zip_code != null ? $userProfile->correspondence_zip_code . ' ' : '') . ($userProfile->correspondence_city != null ? $userProfile->correspondence_city . ', ' : '') . ($userProfile->correspondence_country != null ? $userProfile->correspondence_country : '');
@@ -181,7 +178,7 @@ class UserProfileController extends Controller
 
     protected function isUserGiven(UserProfile $userProfile) {
         if (!$userProfile->exists) {
-            return UserProfile::where('user_id', auth()->user()->id)->firstOrFail();
+            return UserProfile::where('user_id', auth()->user()->id)->firstOrFail;
         }
         else return $userProfile;
     }
