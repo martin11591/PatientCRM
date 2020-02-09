@@ -210,7 +210,7 @@ class UserProfileController extends Controller
     }
 
     protected function prepareFieldsList($opt) {
-        return array_values(array_diff($opt['fields'], $opt['hide']));
+        return array_values(array_diff($opt['fields'], $opt['hidden']));
     }
 
     protected function isUserGiven(UserProfile $userProfile) {

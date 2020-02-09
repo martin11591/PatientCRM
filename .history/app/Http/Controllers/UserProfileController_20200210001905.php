@@ -9,11 +9,8 @@ use Illuminate\Http\Request;
 class UserProfileController extends Controller
 {
 
-    protected $hide;
-
     public function __construct() {
         $this->middleware('auth');
-        $this->hide = ['id', 'user_id', 'birth_zip_code', 'birth_city', 'birth_country', 'registered_zip_code', 'registered_city', 'registered_country', 'correspondence_zip_code', 'correspondence_city', 'correspondence_country'];
     }
     /**
      * Display a listing of the resource.
@@ -60,30 +57,25 @@ class UserProfileController extends Controller
          * 
          * If ID is given then simply search for user profile with that ID
          */
-        $userProfile = $this->getUserProfile($id);
+        if ($id === null) {
+            $id = auth()->user()->id;
+            $userProfile = UserProfile::where('user_id', $id)->firstOrFail();
+        } else $userProfile = UserProfile::findOrFail($id);
         /**
          * Merge separated fields into one
          */
-        $this->mergeFields($userProfile);
+        $userProfile->birth = ($userProfile->birth_zip_code != null ? $userProfile->birth_zip_code . ' ' : '') . ($userProfile->birth_city != null ? $userProfile->birth_city . ', ' : '') . ($userProfile->birth_country != null ? $userProfile->birth_country : '');
+        $userProfile->registered = ($userProfile->registered_zip_code != null ? $userProfile->registered_zip_code . ' ' : '') . ($userProfile->registered_city != null ? $userProfile->registered_city . ', ' : '') . ($userProfile->registered_country != null ? $userProfile->registered_country : '');
+        $userProfile->correspondence = ($userProfile->correspondence_zip_code != null ? $userProfile->correspondence_zip_code . ' ' : '') . ($userProfile->correspondence_city != null ? $userProfile->correspondence_city . ', ' : '') . ($userProfile->correspondence_country != null ? $userProfile->correspondence_country : '');
         // $fields = $this->regroupKeys($userProfile, true);
-        /**
-         * Preparing field list for blade template, so we
-         * don't give field which we don't want to show
-         */
-        $fields = $this->prepareFieldsList([
-            'fields' => array_keys($userProfile->getAttributes()),
-            'hide' => $this->hide
-        ]);
+        $hidden = ['id', 'user_id', 'birth_zip_code', 'birth_city', 'birth_country', 'registered_zip_code', 'registered_city', 'registered_country', 'correspondence_zip_code', 'correspondence_city', 'correspondence_country'];
+        $fields = array_values(array_diff(array_keys($userProfile->getAttributes()), $hidden));
         // $email = $userProfile->email;
         // unset($data['user_id']); // client don't need user_id to show
         $data = [
             'fields' => $fields,
             'profile' => $userProfile
         ];
-        /**
-         * If there exists user with ID listed in user profile, then
-         * let's give it in case
-         */
         if (!!$userProfile->user_id) $data['user'] = User::find($userProfile->user_id);
 
         return view('profile.show', $data);
@@ -194,23 +186,6 @@ class UserProfileController extends Controller
             'correspondence_*' => 'nullable',
             '*' => 'required'
         ]);
-    }
-
-    protected function getUserProfile($id = null) {
-        if ($id === null) {
-            $id = auth()->user()->id;
-            return UserProfile::where('user_id', $id)->firstOrFail();
-        } else return UserProfile::findOrFail($id);
-    }
-
-    protected function mergeFields(&$userProfile) {
-        $userProfile->birth = ($userProfile->birth_zip_code != null ? $userProfile->birth_zip_code . ' ' : '') . ($userProfile->birth_city != null ? $userProfile->birth_city . ', ' : '') . ($userProfile->birth_country != null ? $userProfile->birth_country : '');
-        $userProfile->registered = ($userProfile->registered_zip_code != null ? $userProfile->registered_zip_code . ' ' : '') . ($userProfile->registered_city != null ? $userProfile->registered_city . ', ' : '') . ($userProfile->registered_country != null ? $userProfile->registered_country : '');
-        $userProfile->correspondence = ($userProfile->correspondence_zip_code != null ? $userProfile->correspondence_zip_code . ' ' : '') . ($userProfile->correspondence_city != null ? $userProfile->correspondence_city . ', ' : '') . ($userProfile->correspondence_country != null ? $userProfile->correspondence_country : '');
-    }
-
-    protected function prepareFieldsList($opt) {
-        return array_values(array_diff($opt['fields'], $opt['hide']));
     }
 
     protected function isUserGiven(UserProfile $userProfile) {

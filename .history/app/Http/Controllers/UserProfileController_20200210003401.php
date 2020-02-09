@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UserProfileController extends Controller
 {
 
-    protected $hide;
+    protected $hidden;
 
     public function __construct() {
         $this->middleware('auth');
@@ -72,7 +72,7 @@ class UserProfileController extends Controller
          */
         $fields = $this->prepareFieldsList([
             'fields' => array_keys($userProfile->getAttributes()),
-            'hide' => $this->hide
+            'hidden' => $this->hidden
         ]);
         // $email = $userProfile->email;
         // unset($data['user_id']); // client don't need user_id to show
@@ -210,7 +210,7 @@ class UserProfileController extends Controller
     }
 
     protected function prepareFieldsList($opt) {
-        return array_values(array_diff($opt['fields'], $opt['hide']));
+        return array_values(array_diff($opt['fields'], $opt['hidden']));
     }
 
     protected function isUserGiven(UserProfile $userProfile) {
