@@ -1,6 +1,4 @@
-@extends('adminlte::page')
-
-@section('title', 'AdminLTE')
+@extends('home')
 
 @section('content_header')
     <h1 class="m-0 text-dark">{{ __('profile.profile_data') }}</h1>
@@ -19,7 +17,11 @@
                     @continue ($field == 'user_id')
                         <div class="row{{ !$loop->first ? " my-2" : "" }}">
                             <label class="mb-0 col-md-5 col-lg-4 font-weight-bold" for="{{ $field }}">{{ __("profile.$field") }}: </label>
-                            <input id="{{ $field }}" name="{{ $field }}" value="{{ old($field) != "" ? old($field) : $value }}" class="form-control col" />
+                            <div class="row col">
+                                <input id="{{ $field }}" name="{{ $field }}" value="{{ old($field) != "" ? old($field) : $value }}" class="form-control row" />@error($field)
+                                <p class="row text-danger">{{ $errors->first($field) }}</p>
+                            @enderror
+                            </div>
                         </div>
                     @endforeach
 

@@ -6,12 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserProfile extends Model
 {
-    public $primaryKey = 'user_id';
     public $timestamps = false;
 
-    public $guarded = ['email'];
+    public $guarded = [];
 
-    public function getRouteKeyName() {
-        return 'user_id';
-    }
+    // public $hidden = [
+    //     'user_id',
+    //     'birth_zip_code',
+    //     'birth_city',
+    //     'birth_country',
+    //     'registered_zip_code',
+    //     'registered_city',
+    //     'registered_country',
+    //     'correspondence_zip_code',
+    //     'correspondence_city',
+    //     'correspondence_country',
+    // ];
 }

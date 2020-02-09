@@ -52,21 +52,13 @@ class UserProfileController extends Controller
     public function show(UserProfile $userProfile)
     {
         $userProfile = $this->isUserGiven($userProfile);
-        $userProfile->birth = ($userProfile->birth_zip_code != null ? $userProfile->birth_zip_code . ' ' : '') . ($userProfile->birth_city != null ? $userProfile->birth_city . ', ' : '') . ($userProfile->birth_country != null ? $userProfile->birth_country : '');
-        $userProfile->registered = ($userProfile->registered_zip_code != null ? $userProfile->registered_zip_code . ' ' : '') . ($userProfile->registered_city != null ? $userProfile->registered_city . ', ' : '') . ($userProfile->registered_country != null ? $userProfile->registered_country : '');
-        $userProfile->correspondence = ($userProfile->correspondence_zip_code != null ? $userProfile->correspondence_zip_code . ' ' : '') . ($userProfile->correspondence_city != null ? $userProfile->correspondence_city . ', ' : '') . ($userProfile->correspondence_country != null ? $userProfile->correspondence_country : '');
-        // $fields = $this->regroupKeys($userProfile, true);
-        $hidden = ['id', 'user_id', 'birth_zip_code', 'birth_city', 'birth_country', 'registered_zip_code', 'registered_city', 'registered_country', 'correspondence_zip_code', 'correspondence_city', 'correspondence_country'];
-        $fields = array_values(array_diff(array_keys($userProfile->getAttributes()), $hidden));
-        // $email = $userProfile->email;
-        // unset($data['user_id']); // client don't need user_id to show
-        $data = [
-            'fields' => $fields,
-            'profile' => $userProfile
-        ];
-        if (!!$userProfile->user_id) $data['user'] = User::find($userProfile->user_id);
-
-        return view('profile.show', $data);
+        // $user = User::findOrFail($userProfile->user_id);
+        // dd($user);
+        $data = $this->regroupKeys($userProfile);
+        unset($data['user_id']); // client don't need user_id to show
+        return view('profile.show', [
+            'profile' => $data
+        ]);
     }
 
     /**
@@ -111,7 +103,7 @@ class UserProfileController extends Controller
         //
     }
 
-    protected function regroupKeys(UserProfile $userProfile, $skipNull = false) {
+    protected function regroupKeys(UserProfile $userProfile) {
         /**
          * Here we iterate through every attribute of user profile data
          * then we group all attributes starting from the same word
@@ -137,21 +129,21 @@ class UserProfileController extends Controller
          * ]
          * 
          * @param  \App\UserProfile  $userProfile
-         * @param bool  $skipNull
          * @return \Array
          */
 
         $attributes = $userProfile->getAttributes();
         $keys = [];
         foreach ($attributes as $field => $attribute) {
-            if ($skipNull === true && $attribute == null) continue;
-            $field = trim($field, "_");
-            if (strpos($field, "_") === false) $keys[$field] = $attribute;
-            else {
-                $category = substr($field, 0, strpos($field, "_"));
-                $field = substr($field, strpos($field, "_") + 1);
-                if (!isset($keys[$category])) $keys[$category] = [];
-                $keys[$category][$field] = $attribute;
+            if (true || $attribute != null) {
+                $field = trim($field, "_");
+                if (strpos($field, "_") === false) $keys[$field] = $attribute;
+                else {
+                    $category = substr($field, 0, strpos($field, "_"));
+                    $field = substr($field, strpos($field, "_") + 1);
+                    if (!isset($keys[$category])) $keys[$category] = [];
+                    $keys[$category][$field] = $attribute;
+                }
             }
         }
         
@@ -169,7 +161,6 @@ class UserProfileController extends Controller
     
     protected function validateData() {
         return request()->validate([
-            'phone' => 'numeric',
             'registered_*' => 'nullable',
             'correspondence_*' => 'nullable',
             '*' => 'required'
@@ -177,9 +168,7 @@ class UserProfileController extends Controller
     }
 
     protected function isUserGiven(UserProfile $userProfile) {
-        if (!$userProfile->exists) {
-            return UserProfile::findOrFail(auth()->user()->id);
-        }
+        if (!$userProfile->exists) return UserProfile::findOrFail(auth()->user()->id);
         else return $userProfile;
     }
 }

@@ -14,17 +14,17 @@ class CreateUserProfilesTable extends Migration
     public function up()
     {
         Schema::create('user_profiles', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->primary()->index();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id')->nullable(); // CAN BE NULL BECAUSE THERE CAN BE USER PROFILE WITHOUT LOGGABLE USER
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->text('names');
-            $table->text('surnames');
-            $table->string('doc_id');
+            $table->text('names')->nullable();
+            $table->text('surnames')->nullable();
+            $table->string('doc_id')->nullable();
             $table->timestamp('birth_date')->nullable();
-            $table->string('birth_zip_code');
-            $table->string('birth_city');
-            $table->string('birth_country');
+            $table->string('birth_zip_code')->nullable();
+            $table->string('birth_city')->nullable();
+            $table->string('birth_country')->nullable();
             $table->string('registered_zip_code')->nullable();
             $table->string('registered_city')->nullable();
             $table->string('registered_country')->nullable();

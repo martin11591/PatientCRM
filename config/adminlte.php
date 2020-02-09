@@ -174,8 +174,8 @@ return [
 
     'menu' => [
         [
-            'text' => 'search',
-            'search' => true,
+            'text' => 'profile.welcome',
+            // 'search' => true,
             'topnav' => true,
         ],
         [

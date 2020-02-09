@@ -17,6 +17,16 @@ class CreateGroupUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
         });
+
+        DB::table('group_users')->insert(
+            [
+                ['name' => 'superusers'], 
+                ['name' => 'doctors'], 
+                ['name' => 'receptionists'], 
+                ['name' => 'patients']
+            ]
+        );
+        
     }
 
     /**
