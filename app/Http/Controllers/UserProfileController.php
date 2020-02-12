@@ -12,7 +12,7 @@ class UserProfileController extends Controller
     protected $hide;
 
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware('verified');
         $this->hide = ['id', 'user_id', 'birth_zip_code', 'birth_city', 'birth_country', 'registered_zip_code', 'registered_city', 'registered_country', 'correspondence_zip_code', 'correspondence_city', 'correspondence_country'];
     }
     /**
@@ -61,11 +61,13 @@ class UserProfileController extends Controller
          * If ID is given then simply search for user profile with that ID
          */
         $userProfile = $this->getUserProfile($id);
+
         /**
          * Merge separated fields into one
          */
         $this->mergeFields($userProfile);
         // $fields = $this->regroupKeys($userProfile, true);
+
         /**
          * Preparing field list for blade template, so we
          * don't give field which we don't want to show
@@ -74,12 +76,15 @@ class UserProfileController extends Controller
             'fields' => array_keys($userProfile->getAttributes()),
             'hide' => $this->hide
         ]);
+
         // $email = $userProfile->email;
         // unset($data['user_id']); // client don't need user_id to show
+
         $data = [
             'fields' => $fields,
             'profile' => $userProfile
         ];
+
         /**
          * If there exists user with ID listed in user profile, then
          * let's give it in case
@@ -95,13 +100,25 @@ class UserProfileController extends Controller
      * @param  \App\UserProfile  $userProfile
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserProfile $userProfile)
+    public function edit($id = null)
     {
-        $userProfile = $this->isUserGiven($userProfile);
-        return view('profile.edit', [
-            'userProfile' => $userProfile,
-            'profile' => $this->regroupKeys($userProfile)
+        $userProfile = $this->getUserProfile($id);
+
+        // $this->mergeFields($userProfile);
+
+        $fields = $this->prepareFieldsList([
+            'fields' => array_keys($userProfile->getAttributes()),
+            'hide' => ['id', 'user_id']
         ]);
+
+        $data = [
+            'fields' => $fields,
+            'profile' => $userProfile
+        ];
+
+        if (!!$userProfile->user_id) $data['user'] = User::find($userProfile->user_id);
+
+        return view('profile.edit', $data);
     }
 
     /**
@@ -111,11 +128,24 @@ class UserProfileController extends Controller
      * @param  \App\UserProfile  $userProfile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserProfile $userProfile)
+    public function update(Request $request, $id)
     {
-        $userProfile = $this->isUserGiven($userProfile);
+        $userProfile = $this->getUserProfile($id);
 
-        $userProfile->update($this->validateData());
+        $user = new \stdClass();
+
+        if (!!$userProfile->user_id) $user = User::find($userProfile->user_id);
+
+        // $userProfile = $this->isUserGiven($userProfile);
+
+        $data = $this->validateData();
+
+        /**
+         * Leave only same keys that UserProfile Model has
+         */
+        $userProfile->update(array_intersect_key($data, $userProfile->getAttributes()));
+        
+        if (!!$user->email) $user->update(array_intersect_key($data, $user->getAttributes()));
 
         return redirect(route('profile.show'));
     }
