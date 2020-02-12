@@ -147,7 +147,7 @@ class UserProfileController extends Controller
         
         if (!!$user->email) $user->update(array_intersect_key($data, $user->getAttributes()));
 
-        return redirect(route('profile.show'))->with('message', 'profile.data_update_success');
+        return redirect(route('profile.show'))->with('message', 'profile.data_changed_success');
     }
 
     /**

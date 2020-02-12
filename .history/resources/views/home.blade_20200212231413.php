@@ -16,12 +16,9 @@
             </div>
         </div>
     </div>
-@endsection
 
-@section('body')
-    @parent
     @if (Session::has('message'))
-    <div aria-live="polite" aria-atomic="true" class="fixed-top" style="top: 72px; margin-right: 16px">
+    <div aria-live="polite" aria-atomic="true" class="sticky-top">
         <div class="toast" style="position: absolute; top: 0; right: 0;" data-delay="{{ (substr_count(trans(Session::get('message')), " ") + 1) * 300 }}">
             <div class="toast-header">
             <img src="..." class="rounded mr-2" alt="...">
@@ -36,15 +33,16 @@
             </div>
         </div>
     </div>
-@endsection
 
-@section('adminlte_js')
-    @parent
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var toasts = $('.toast');
-            toasts.toast('show');
-        });
-    </script>
+        @section('adminlte_js')
+            @parent
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    var toasts = $('.toast');
+                    toasts.toast('show');
+                });
+            </script>
+        @endsection
+    @endif
+
 @endsection
-@endif
