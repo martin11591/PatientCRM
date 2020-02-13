@@ -19,7 +19,6 @@ class CreateUserPrivilegesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('privilege_id');
             $table->foreign('privilege_id')->references('id')->on('privileges');
-            $table->unsignedTinyInteger('mode'); // bit operator for mode
         });
     }
 

@@ -27,7 +27,4 @@ Route::get('/profile/data/edit/{id?}', 'UserProfileController@edit')->name('prof
 Route::get('/profile/data/{id?}', 'UserProfileController@show')->name('profile.show');
 Route::put('/profile/data/{userProfile?}', 'UserProfileController@update')->name('profile.update');
 
-Route::get('/test/{id?}', function(Request $request, $id) {
-    use App\Privilege;
-    
-});
+Route::get('/test/{id?}', 'PrivilegeController@check');

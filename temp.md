@@ -1,0 +1,14 @@
+<pre>
+(function(calc, pad = false) {
+  calc = parseInt(calc);
+  var result = [];
+  while (calc > 1) {
+    result.unshift(calc % 2);
+    calc -= Math.floor(calc / 2);
+  }
+  result.unshift(calc % 2);
+  return result;
+})(8);
+
+// return [1, 0, 0, 0];
+</pre>
