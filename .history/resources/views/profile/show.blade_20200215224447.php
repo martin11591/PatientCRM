@@ -29,12 +29,7 @@
                 @endforeach
                     <div class="row">
                         <a href="{{ route('profile.edit', $profile->id) }}" class="btn btn-primary ml-auto mt-4">{{ __('profile.edit') }}</a>
-                        @can('delete', $profile)
-                        <form method="POST" action="{{ route('profile.delete', $profile) }}">
-                        @csrf
-                        @method('DELETE')
-                            <input type="submit" value="{{ __('profile.delete') }}" class="btn btn-danger ml-2 mt-4" />
-                        </form>
+                        @can('delete', \App\UserProfile)
                         @endcan
                     </div>
                 </div>

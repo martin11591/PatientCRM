@@ -33,8 +33,8 @@
                         </div>
                     @endforeach
                         <div class="row">
-                            <a href="{{ route('profile.show', $profile) }}" class="btn btn-primary ml-auto mt-4">{{ __('profile.cancel') }}</a>
-                            <input type="submit" value="{{ __('profile.update') }}" class="btn btn-primary ml-2 mt-4" />
+                            <a href="{{ redirect()->back() }}" class="btn btn-primary ml-auto mt-4">{{ __('profile.cancel') }}</a>
+                            <input type="submit" value="{{ __('profile.update') }}" class="btn btn-primary ml-auto mt-4" />
                         </div>
                     </form>
                 </div>

@@ -33,7 +33,7 @@
                         <form method="POST" action="{{ route('profile.delete', $profile) }}">
                         @csrf
                         @method('DELETE')
-                            <input type="submit" value="{{ __('profile.delete') }}" class="btn btn-danger ml-2 mt-4" />
+                            <input type="submit" value="{{ __('profile.delete') }}" class="btn btn-danger ml-auto mt-4" />
                         </form>
                         @endcan
                     </div>

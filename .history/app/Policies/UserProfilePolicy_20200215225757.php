@@ -47,9 +47,10 @@ class UserProfilePolicy
      * @param  \App\UserProfile  $userProfile
      * @return mixed
      */
-    public function delete(User $user, UserProfile $userProfile)
+    public function delete()
     {
-        return $this->check($user, $userProfile);
+        //
+        dd("DELETE");
         return false;
     }
 

@@ -73,7 +73,7 @@ class RegisterController extends Controller
         ]);
         
         // Create empty profile
-        $userProfile = UserProfile::create([
+        $userProfile = \App\UserProfile::create([
             'user_id' => $user->id
         ]);
 

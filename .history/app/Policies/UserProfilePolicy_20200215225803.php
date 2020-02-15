@@ -49,7 +49,8 @@ class UserProfilePolicy
      */
     public function delete(User $user, UserProfile $userProfile)
     {
-        return $this->check($user, $userProfile);
+        //
+        dd("DELETE");
         return false;
     }
 

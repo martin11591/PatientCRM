@@ -27,7 +27,6 @@ return [
     'update' => 'Aktualizuj',
     'edit' => 'Edytuj',
     'delete' => 'Usuń',
-    'cancel' => 'Anuluj',
     'group' => 'Grupa',
     'change_password' => 'Zmień hasło',
     'current_password' => 'Aktualne hasło',

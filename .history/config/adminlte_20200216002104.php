@@ -201,7 +201,6 @@ return [
                     'text' => 'profile_data',
                     'icon' => 'fas fa-fw fa-user',
                     'route' => 'profile.show',
-                    'active' => ['profile/*'],
                 ],
                 [
                     'text' => 'change_password',
