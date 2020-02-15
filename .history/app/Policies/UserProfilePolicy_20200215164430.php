@@ -6,9 +6,43 @@ use App\User;
 use App\UserProfile;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserProfile
+class UserProfilePolicy
 {
+    /**
+     * Groups
+     */
+    public const SUPERUSER    = 1;
+    public const DOCTOR       = 2;
+    public const RECEPTIONIST = 3;
+    public const PATIENT      = 4;
+
+    /**
+     * Rights
+     */
+    public const CAN_CREATE = 0b1000;
+    public const CAN_READ   = 0b0100;
+    public const CAN_UPDATE = 0b0010;
+    public const CAN_DELETE = 0b0001;
+
     use HandlesAuthorization;
+
+    /**
+     * Get user groups
+     */
+    private function getGroup(User $user) {
+        $groups = $user->groups()->get();
+        
+        /**
+         * Prepare array with IDs and names
+         */
+        $g = ['id' => 0, 'name' => ""];
+        foreach ($groups as $group) {
+            $g['id'] |= decbin($group->id);
+            $g['name'] .= ($g['name'] != "" ? ", ": "") . trans("groups.{$group->name}");
+        }
+        dd($g);
+        return null;
+    }
 
     /**
      * Determine whether the user can view any user profiles.
@@ -28,9 +62,13 @@ class UserProfile
      * @param  \App\UserProfile  $userProfile
      * @return mixed
      */
-    public function view(User $user, UserProfile $userProfile)
+    public function view(?User $user, UserProfile $userProfile)
     {
-        //
+        /**
+         * Show all user data and user profile data only to superuser group
+         */
+        dd($this->getGroup($user));
+        return true;
     }
 
     /**
