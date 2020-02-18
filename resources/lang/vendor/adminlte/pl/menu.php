@@ -5,7 +5,6 @@ return [
     'main_navigation'               => 'NAWIGACJA GŁÓWNA',
     'blog'                          => 'Blog',
     'pages'                         => 'Strony',
-    'account_settings'              => 'USTAWIENIA KONTA',
     'profile'                       => 'Profil',
     'change_password'               => 'Zmień hasło',
     'multilevel'                    => 'Multi Level',
