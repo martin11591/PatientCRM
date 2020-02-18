@@ -18,7 +18,6 @@ return [
     'medicines' => 'Leki',
     'medicine' => 'Lek',
     'price' => 'Cena',
-    'price_value_common' => ':price zł',
     'visits' => 'Wizyty',
     'visit' => 'Wizyta',
     'prescriptions' => 'Recepty',

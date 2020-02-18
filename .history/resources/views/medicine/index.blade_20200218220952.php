@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ $medicine->name }}</td>
                 <td>@foreach ($medicine->groups->all() as $group){!! (!$loop->first ? ', <br class="d-md-none" />' : '') !!}{{ $group->name }}@endforeach</td>
-                <td>{{ __('layout.price_value_common', ['price' => number_format($medicine->price, 2)]) }}</td>
+                <td>{{ __('layout.price_value_common', ['price' => $medicine->price]) }}</td>
                 <td>
                     <a href="#" class="btn btn-primary m-1" title="{{ __('layout.edit') }}"><i class="fas fa-fw fa-pen"></i></a>
                     <form method="POST" class="d-inline">
