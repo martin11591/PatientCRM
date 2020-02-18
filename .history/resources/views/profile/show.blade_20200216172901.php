@@ -1,0 +1,71 @@
+@extends('home')
+
+@section('content_header')
+    <h1 class="m-0 text-dark">{{ __('profile.profile_data') }}</h1>
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                @isset($user)
+                    <div class="row">
+                        <div class="mb-0 col-md-5 col-lg-4 font-weight-bold">{{ __("profile.group") }}: </div>
+                        <div class="col">
+                        @foreach ($groups as $field) @if (!$loop->first) <br /> @endif {{ __("groups.$field->name") }} @endforeach
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-0 col-md-5 col-lg-4 font-weight-bold">{{ __("profile.email") }}: </div>
+                        <div class="col">{{ $user->email }}</div>
+                    </div>
+                @endisset
+                @foreach ($fields as $field)
+                    <div class="row">
+                        <div class="mb-0 col-md-5 col-lg-4 font-weight-bold">{{ __("profile.$field") }}: </div>
+                        <div class="col">{{ $profile->$field }}</div>
+                    </div>
+                @endforeach
+                    <div class="row mt-4">
+                        <a href="{{ route('profile.edit', $profile->id) }}" class="btn btn-primary ml-auto">{{ __('profile.edit') }}</a>
+                        @can('delete', $profile)
+                        @component('partials.modal_button')
+                            @slot('class')
+                                danger
+                            @endslot
+                            @slot('target')
+                                profile_delete
+                            @endslot
+                            {{ __('profile.delete') }}
+                        @endcomponent
+                        @endcan
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('body')
+    @component('partials.modal_content')
+        @slot('id')
+            profile_delete
+        @endslot
+        @slot('label')
+            profile_delete
+        @endslot
+        @slot('title')
+            {{ __('profile.confirm_action') }}
+        @endslot
+        @slot('footer')
+            <button type="button" class="btn btn-primary" data-dismiss="modal">{{ __('profile.cancel') }}</button>
+            <form method="POST" action="{{ route('profile.delete', $profile) }}">
+            @csrf
+            @method('DELETE')
+                <input type="submit" value="{{ __('profile.delete') }}" class="btn btn-danger ml-2" />
+            </form>
+        @endslot
+        {{ __('profile.modal_delete_text') }}
+    @endcomponent
+@show
