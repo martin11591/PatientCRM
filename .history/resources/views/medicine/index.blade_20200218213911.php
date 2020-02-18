@@ -10,9 +10,9 @@
     <table id="diseases_table" class="table table-bordered table-hover">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">{{ __('layout.disease') }}</th>
-                <th scope="col">{{ __('layout.groups') }}</th>
-                <th scope="col" data-orderable="false" data-searchable="false">{{ __('layout.actions') }}</th>
+                <th scope="col">Choroba</th>
+                <th scope="col">Grupy</th>
+                <th scope="col" data-orderable="false" data-searchable="false">Akcje</th>
             </tr>
         </thead>
         <tbody>

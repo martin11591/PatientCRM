@@ -215,9 +215,9 @@ return [
             'route' => 'disease.index',
         ],
         [
-            'text' => 'medicines',
+            'text' => 'medicinwes',
             'icon_color' => 'lightblue',
-            'route' => 'medicine.index',
+            'route' => 'medicinwe.index',
         ],
     ],
 

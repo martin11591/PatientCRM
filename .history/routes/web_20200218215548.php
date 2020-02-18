@@ -37,8 +37,8 @@ Route::prefix('/disease')->name('disease.')->group(function() {
     Route::get('/', 'DiseaseController@index')->name('index');
 });
 
-Route::prefix('/medicine')->name('medicine.')->group(function() {
-    Route::get('/', 'MedicineController@index')->name('index');
+Route::prefix('/medicament')->name('medicament.')->group(function() {
+    Route::get('/', 'MedicamentController@index')->name('index');
 });
 
 Route::get('/test/{id?}', function(Request $request, $id = null) {

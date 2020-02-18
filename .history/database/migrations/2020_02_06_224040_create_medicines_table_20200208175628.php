@@ -16,7 +16,7 @@ class CreateMedicinesTable extends Migration
         Schema::create('medicines', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('name');
-            $table->float('price')->default('0.00');
+            $table->float('price');
         });
     }
 
