@@ -61,6 +61,7 @@ class DiseaseController extends Controller
      */
     public function edit(Disease $disease)
     {
+        //
         return view('disease.edit', [
             'fields' => array_diff(array_keys($disease->getAttributes()), ['id']),
             'disease' => $disease

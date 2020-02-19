@@ -21,7 +21,7 @@
                 <td>{{ $disease->name }}</td>
                 <td>@foreach ($disease->groups->all() as $group){!! (!$loop->first ? ', <br class="d-md-none" />' : '') !!}{{ $group->name }}@endforeach</td>
                 <td>
-                    <a href="{{ route('disease.edit', $disease->id) }}" class="btn btn-primary m-1" title="{{ __('layout.edit') }}"><i class="fas fa-fw fa-pen"></i></a>
+                    <a href="#" class="btn btn-primary m-1" title="{{ __('layout.edit') }}"><i class="fas fa-fw fa-pen"></i></a>
                     <form method="POST" class="d-inline">
                         @csrf
                         @method("DELETE")
@@ -34,7 +34,7 @@
         @endforeach
         </tbody>
     </table>
-    @if ($diseases->lastPage() > 1)
+    @if (isset($diseases->lastPage()) && $diseases->lastPage() > 1)
     <section class="paginator d-table mx-auto mt-3">
         {{ $perPage != 10 ? $diseases->appends(['perPage' => $perPage])->links() : $diseases->links() }}
     </section>

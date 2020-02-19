@@ -61,6 +61,7 @@ class DiseaseController extends Controller
      */
     public function edit(Disease $disease)
     {
+        //
         return view('disease.edit', [
             'fields' => array_diff(array_keys($disease->getAttributes()), ['id']),
             'disease' => $disease
@@ -90,9 +91,9 @@ class DiseaseController extends Controller
         try {
             $disease->delete();
         } catch (\Exception $ex) {
-            return redirect(route('disease.index'))->with('message', 'layout.delete_error');
+            return redirect(route('disease.index'))->with('message', 'profile.delete_error');
         }
 
-        return redirect(route('disease.index'))->with('message', 'layout.deleted_success');
+        return redirect(route('disease.index'))->with('message', 'profile.deleted_success');
     }
 }

@@ -37,14 +37,10 @@ Route::prefix('/disease')->name('disease.')->group(function() {
     Route::get('/', 'DiseaseController@index')->name('index');
     Route::get('/edit/{disease}', 'DiseaseController@edit')->name('edit');
     Route::put('/{disease}', 'DiseaseController@update')->name('update');
-    Route::delete('/{disease}', 'DiseaseController@destroy')->name('delete');
 });
 
 Route::prefix('/medicine')->name('medicine.')->group(function() {
     Route::get('/', 'MedicineController@index')->name('index');
-    Route::get('/edit/{medicine}', 'MedicineController@edit')->name('edit');
-    Route::put('/{medicine}', 'MedicineController@update')->name('update');
-    Route::delete('/{medicine}', 'MedicineController@destroy')->name('delete');
 });
 
 Route::get('/test/{id?}', function(Request $request, $id = null) {

@@ -35,4 +35,8 @@ return [
     'current_password' => 'Aktualne hasło',
     'new_password' => 'Nowe hasło',
     'repeat_password' => 'Powtórz hasło',
+    'deleted_success' => 'Pomyślnie usunięto.',
+    'delete_error' => 'Wystąpił problem podczas usuwania.',
+    'data_update_success' => 'Dane zaktualizowano pomyślnie.',
+    'data_update_error_id_not_given' => 'Błąd aktualizacji danych - nie podano identyfikatora.',
 ];

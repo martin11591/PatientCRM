@@ -21,7 +21,7 @@
                 <td>{{ $disease->name }}</td>
                 <td>@foreach ($disease->groups->all() as $group){!! (!$loop->first ? ', <br class="d-md-none" />' : '') !!}{{ $group->name }}@endforeach</td>
                 <td>
-                    <a href="{{ route('disease.edit', $disease->id) }}" class="btn btn-primary m-1" title="{{ __('layout.edit') }}"><i class="fas fa-fw fa-pen"></i></a>
+                    <a href="{{ route('disease.edit') }}" class="btn btn-primary m-1" title="{{ __('layout.edit') }}"><i class="fas fa-fw fa-pen"></i></a>
                     <form method="POST" class="d-inline">
                         @csrf
                         @method("DELETE")

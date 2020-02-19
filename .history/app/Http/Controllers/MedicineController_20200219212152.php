@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Disease;
+use App\Medicine;
 use Illuminate\Http\Request;
 
-class DiseaseController extends Controller
+class MedicineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,10 @@ class DiseaseController extends Controller
      */
     public function index(Request $request)
     {
-        // $diseases = Disease::all();
         $perPage = intval($request->input('perPage', 10));
         if (is_nan($perPage)) $perPage = 10;
-        $diseases = Disease::with('groups')->paginate($perPage);
-        return view('disease.index', ['diseases' => $diseases, 'perPage' => $perPage]);
+        $medicines = Medicine::with('groups')->paginate($perPage);
+        return view('medicine.index', ['medicines' => $medicines, 'perPage' => $perPage]);
     }
 
     /**
@@ -45,10 +44,10 @@ class DiseaseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Disease  $disease
+     * @param  \App\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function show(Disease $disease)
+    public function show(Medicine $medicine)
     {
         //
     }
@@ -56,25 +55,22 @@ class DiseaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Disease  $disease
+     * @param  \App\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function edit(Disease $disease)
+    public function edit(Medicine $medicine)
     {
-        return view('disease.edit', [
-            'fields' => array_diff(array_keys($disease->getAttributes()), ['id']),
-            'disease' => $disease
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Disease  $disease
+     * @param  \App\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Disease $disease)
+    public function update(Request $request, Medicine $medicine)
     {
         //
     }
@@ -82,17 +78,18 @@ class DiseaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Disease  $disease
+     * @param  \App\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Disease $disease)
+    public function destroy(Medicine $medicine)
     {
         try {
-            $disease->delete();
+            $medicine->delete();
         } catch (\Exception $ex) {
-            return redirect(route('disease.index'))->with('message', 'layout.delete_error');
+            return redirect(route('medicine.index'))->with('message', 'layout.delete_error');
         }
 
-        return redirect(route('disease.index'))->with('message', 'layout.deleted_success');
+        return redirect(route('medicine.index'))->with('message', 'layout.deleted_success');
+    }
     }
 }

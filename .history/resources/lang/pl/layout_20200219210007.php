@@ -27,11 +27,4 @@ return [
 
     'edit_entry' => 'Edytuj wpis',
     'disease_name' => 'Nazwa choroby',
-    'medicine_name' => 'Nazwa leku',
-    'medicine_price' => 'Cena',
-    
-    'deleted_success' => 'Pomyślnie usunięto.',
-    'delete_error' => 'Wystąpił problem podczas usuwania.',
-    'data_update_success' => 'Dane zaktualizowano pomyślnie.',
-    'data_update_error_id_not_given' => 'Błąd aktualizacji danych - nie podano identyfikatora.',
 ];

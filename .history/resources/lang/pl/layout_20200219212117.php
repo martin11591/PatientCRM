@@ -27,8 +27,6 @@ return [
 
     'edit_entry' => 'Edytuj wpis',
     'disease_name' => 'Nazwa choroby',
-    'medicine_name' => 'Nazwa leku',
-    'medicine_price' => 'Cena',
     
     'deleted_success' => 'Pomyślnie usunięto.',
     'delete_error' => 'Wystąpił problem podczas usuwania.',
