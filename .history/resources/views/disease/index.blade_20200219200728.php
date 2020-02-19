@@ -34,11 +34,8 @@
         @endforeach
         </tbody>
     </table>
-    @if ($diseases->lastPage() > 1)
-    <section class="paginator d-table mx-auto mt-3">
-        {{ $perPage != 10 ? $diseases->appends(['perPage' => $perPage])->links() : $diseases->links() }}
-    </section>
-    @endif
+    
+    {{ $diseases->links() }}
 @endsection
 
 @section('js')

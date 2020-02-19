@@ -12,13 +12,11 @@ class DiseaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         // $diseases = Disease::all();
-        $perPage = intval($request->input('perPage', 10));
-        if (is_nan($perPage)) $perPage = 10;
-        $diseases = Disease::with('groups')->paginate($perPage);
-        return view('disease.index', ['diseases' => $diseases, 'perPage' => $perPage]);
+        $diseases = Disease::with('groups')->paginate(10);
+        return view('disease.index', ['diseases' => $diseases]);
     }
 
     /**
