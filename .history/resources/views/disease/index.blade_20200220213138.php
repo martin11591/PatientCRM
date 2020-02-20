@@ -69,7 +69,7 @@
             
             @component('partials.js.select_all')
                 @slot('global_selector')
-                    #diseases_table thead>tr:first>th:first
+                    #medicines_table thead>tr:first>th:first
                 @endslot
                 @slot('local_selector')
                     #checkbox-all

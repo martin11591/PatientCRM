@@ -13,7 +13,7 @@
                 <th class="position-relative align-middle text-center" scope="col" data-orderable="false" data-searchable="false">
                     <form action="{{ route('medicine.delete', 'post') }}" method="POST" id="form_multi" name="multi">
                         @csrf
-                        @method("DELETE")
+                        @method('DELETE')
                         <input type="checkbox" name="id" form="form_multi" id="checkbox-all" value="@foreach ($medicines as $medicine){{ (!$loop->first ? ',' : '') . $medicine->id }}@endforeach">
                         <label class="position-absolute h-100 w-100" style="left: 0; top: 0" for="checkbox-all"></label>
                     </form>

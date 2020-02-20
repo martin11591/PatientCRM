@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Medicine;
+use App\Disease;
 use Illuminate\Http\Request;
 use App\Http\Traits\MultiSelectTrait;
 use App\Http\Traits\MassActionTrait;
 
-class MedicineController extends Controller
+class DiseaseController extends Controller
 {
     use MultiSelectTrait;
     use MassActionTrait;
@@ -19,10 +19,11 @@ class MedicineController extends Controller
      */
     public function index(Request $request)
     {
+        // $diseases = Disease::all();
         $perPage = intval($request->input('perPage', 10));
         if (is_nan($perPage)) $perPage = 10;
-        $medicines = Medicine::with('groups')->paginate($perPage);
-        return view('medicine.index', ['medicines' => $medicines, 'perPage' => $perPage]);
+        $diseases = Disease::with('groups')->paginate($perPage);
+        return view('disease.index', ['diseases' => $diseases, 'perPage' => $perPage]);
     }
 
     /**
@@ -49,10 +50,10 @@ class MedicineController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function show(Medicine $medicine)
+    public function show(Disease $disease)
     {
         //
     }
@@ -60,14 +61,14 @@ class MedicineController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicine $medicine)
+    public function edit(Disease $disease)
     {
-        return view('medicine.edit', [
-            'fields' => array_diff(array_keys($medicine->getAttributes()), ['id']),
-            'medicine' => $medicine
+        return view('disease.edit', [
+            'fields' => array_diff(array_keys($disease->getAttributes()), ['id']),
+            'disease' => $disease
         ]);
     }
 
@@ -75,10 +76,10 @@ class MedicineController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Medicine $medicine)
+    public function update(Request $request, Disease $disease)
     {
         //
     }
@@ -86,30 +87,32 @@ class MedicineController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function destroy($medicine, Request $request)
+    public function destroy($disease, Request $request)
     {
-        $params = $this->getIDsList($medicine, $request);
+        $message = [];
+
+        $params = $this->getIDsList($disease, $request);
         
         /**
          * Get all specified entries
          */
-        $medicines = Medicine::find($params);
+        $diseases = Disease::find($params);
 
         /**
          * Do job on every item
-         * Route param 'disease' ($medicine)
+         * Route param 'disease' ($disease)
          * Becomes Disease model entry
          */
 
-        $results = $this->process($medicines, function($item) {
+        $action = $this->process($diseases, function($item) {
             $item->delete();
         });
 
-        $message = $this->createMessage($results);
+        $message = $this->createMessage($actions, $params);
         
-        return redirect(route('medicine.index'))->with(['message' => $message, 'time' => date("G:i:s")]);
+        return redirect(route('disease.index'))->with(['message' => $message, 'time' => date("G:i:s")]);
     }
 }

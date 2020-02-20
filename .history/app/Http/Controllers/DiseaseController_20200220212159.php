@@ -92,6 +92,8 @@ class DiseaseController extends Controller
      */
     public function destroy($disease, Request $request)
     {
+        $message = [];
+
         $params = $this->getIDsList($disease, $request);
         
         /**
@@ -105,11 +107,34 @@ class DiseaseController extends Controller
          * Becomes Disease model entry
          */
 
-        $results = $this->process($diseases, function($item) {
-            $item->delete();
-        });
+        $successCounter = 0;
+        $errorCounter = 0;
+        $errorEntries = [];
 
-        $message = $this->createMessage($results);
+        foreach ($diseases as $disease) {
+            try {
+                $disease->delete();
+                $successCounter++;
+            } catch (\Exception $ex) {
+                $errorCounter++;
+                array_push($errorEntries, $disease);
+            }
+        }
+
+        if ($successCounter > 0) {
+            if ($successCounter == 1) array_push($message, __('layout.deleted_success'));
+            else array_push($message, __('layout.deleted_success_many', ['count' => $successCounter]));
+        }
+        if ($errorCounter > 0) {
+            if ($errorCounter == 1) array_push($message, __('layout.delete_error'));
+            else array_push($message, __('layout.delete_error_many', ['count' => $errorCounter]));
+        }
+
+        $notFoundCount = count($params) - count($diseases);
+        if ($notFoundCount == 1) array_push($message, __('layout.not_found'));
+        else if ($notFoundCount > 1) array_push($message, __('layout.not_found_many', ['count' => $notFoundCount]));
+
+        $message = implode("<br>", $message);
         
         return redirect(route('disease.index'))->with(['message' => $message, 'time' => date("G:i:s")]);
     }

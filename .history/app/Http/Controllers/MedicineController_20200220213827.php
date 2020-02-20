@@ -89,7 +89,7 @@ class MedicineController extends Controller
      * @param  \App\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function destroy($medicine, Request $request)
+    public function destroy(Medicine $medicine)
     {
         $params = $this->getIDsList($medicine, $request);
         
@@ -104,11 +104,11 @@ class MedicineController extends Controller
          * Becomes Disease model entry
          */
 
-        $results = $this->process($medicines, function($item) {
+        $action = $this->process($medicines, function($item) {
             $item->delete();
         });
 
-        $message = $this->createMessage($results);
+        $message = $this->createMessage($action, $params);
         
         return redirect(route('medicine.index'))->with(['message' => $message, 'time' => date("G:i:s")]);
     }

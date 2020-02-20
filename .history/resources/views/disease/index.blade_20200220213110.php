@@ -60,22 +60,21 @@
 @section('js')
     <script type="text/javascript">
     (function()
-        {
-            @component('partials.js.datatable')
-                @slot('id')
-                    #diseases_table
-                @endslot
-            @endcomponent
-            
-            @component('partials.js.select_all')
-                @slot('global_selector')
-                    #diseases_table thead>tr:first>th:first
-                @endslot
-                @slot('local_selector')
-                    #checkbox-all
-                @endslot
-            @endcomponent
-        }
-    )();
+    {
+        @component('partials.js.datatable')
+            @slot('id')
+                #diseases_table
+            @endslot
+        @endcomponent
+        
+        @component('partials.js.select_all')
+            @slot('global_selector')
+                #diseases_table thead>tr:first>th:first
+            @endslot
+            @slot('local_selector')
+                #checkbox-all
+            @endslot
+        @endcomponent
+    })();
     </script>
 @endsection

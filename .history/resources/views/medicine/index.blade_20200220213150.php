@@ -10,31 +10,15 @@
     <table id="medicines_table" class="table table-bordered table-hover">
         <thead class="thead-dark">
             <tr>
-                <th class="position-relative align-middle text-center" scope="col" data-orderable="false" data-searchable="false">
-                    <form action="{{ route('medicine.delete', 'post') }}" method="POST" id="form_multi" name="multi">
-                        @csrf
-                        @method("DELETE")
-                        <input type="checkbox" name="id" form="form_multi" id="checkbox-all" value="@foreach ($medicines as $medicine){{ (!$loop->first ? ',' : '') . $medicine->id }}@endforeach">
-                        <label class="position-absolute h-100 w-100" style="left: 0; top: 0" for="checkbox-all"></label>
-                    </form>
-                </th>
                 <th scope="col">{{ __('layout.medicine') }}</th>
                 <th scope="col">{{ __('layout.groups') }}</th>
                 <th scope="col">{{ __('layout.price') }}</th>
-                <th scope="col" data-orderable="false" data-searchable="false">{{ __('layout.actions') }}
-                    <button type="submit" form="form_multi" class="btn btn-danger m-1">
-                        <i class="fas fa-fw fa-times"></i>
-                    </button>
-                </th>
+                <th scope="col" data-orderable="false" data-searchable="false">{{ __('layout.actions') }}</th>
             </tr>
         </thead>
         <tbody>
         @foreach ($medicines as $medicine)
             <tr>
-                <td class="position-relative align-middle text-center">
-                    <input type="checkbox" name="id[]" form="form_multi" value="{{ $medicine->id }}" id="checkbox-id-{{ $medicine->id }}">
-                    <label class="position-absolute h-100 w-100" style="left: 0; top: 0" for="checkbox-id-{{ $medicine->id }}"></label>
-                </td>
                 <td>{{ $medicine->name }}</td>
                 <td>@foreach ($medicine->groups->all() as $group){!! (!$loop->first ? ', <br class="d-md-none" />' : '') !!}{{ $group->name }}@endforeach</td>
                 <td>{{ __('layout.price_value_common', ['price' => number_format($medicine->price, 2)]) }}</td>

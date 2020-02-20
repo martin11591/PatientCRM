@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Medicine;
 use Illuminate\Http\Request;
 use App\Http\Traits\MultiSelectTrait;
-use App\Http\Traits\MassActionTrait;
 
 class MedicineController extends Controller
 {
     use MultiSelectTrait;
-    use MassActionTrait;
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -89,27 +87,14 @@ class MedicineController extends Controller
      * @param  \App\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function destroy($medicine, Request $request)
+    public function destroy(Medicine $medicine)
     {
-        $params = $this->getIDsList($medicine, $request);
-        
-        /**
-         * Get all specified entries
-         */
-        $medicines = Medicine::find($params);
+        try {
+            $medicine->delete();
+        } catch (\Exception $ex) {
+            return redirect(route('medicine.index'))->with('message', 'layout.delete_error');
+        }
 
-        /**
-         * Do job on every item
-         * Route param 'disease' ($medicine)
-         * Becomes Disease model entry
-         */
-
-        $results = $this->process($medicines, function($item) {
-            $item->delete();
-        });
-
-        $message = $this->createMessage($results);
-        
-        return redirect(route('medicine.index'))->with(['message' => $message, 'time' => date("G:i:s")]);
+        return redirect(route('medicine.index'))->with('message', 'layout.deleted_success');
     }
 }
