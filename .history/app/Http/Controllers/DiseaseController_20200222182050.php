@@ -14,10 +14,6 @@ class DiseaseController extends Controller
     use MultiSelectTrait;
     use MassActionTrait;
 
-    public function __construct() {
-        $this->middleware(['auth', 'verified']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -93,10 +89,10 @@ class DiseaseController extends Controller
         if (isset($groupsModel[0])) {
             $fields["groups"] = array_diff(array_keys($groupsModel[0]->getAttributes()), ['id']);
         }
-
+        dd($fields);
+        
         $viewData = [
             'entries' => [],
-            'relation' => 'groups',
             'groups' => $groups,
             'fields' => $fields,
             'messages' => $messages

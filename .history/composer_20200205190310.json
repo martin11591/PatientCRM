@@ -15,7 +15,6 @@
         "laravel/tinker": "^2.0"
     },
     "require-dev": {
-        "symfony/translation-contracts": "^1.1.7",
         "barryvdh/laravel-debugbar": "^3.2",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",

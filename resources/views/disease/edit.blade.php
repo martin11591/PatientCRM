@@ -13,13 +13,46 @@
                     @csrf
                     @method('PUT')
                     @foreach ($entries as $id => $entry)
-                        @foreach ($fields as $field)
+                        @foreach ($fields as $key => $field)
                             <div class="row my-2">
-                                <label class="mb-0 col-md-5 col-lg-4 font-weight-bold" for="{{ $field }}">{{ __("layout.disease_$field") }}: </label>
+                                @if (gettype($field) != "array")
+                                <label class="mb-0 col-md-5 col-lg-4 font-weight-bold" for="entry-{{ $id }}-{{ $field }}">{{ __("layout.disease_$field") }}: </label>
                                 <div class="row col">
-                                    <input id="entry-{{ $id }}-{{ $field }}" name="entry[{{ $id }}][{{ $field }}]" value="{{ old($field) != "" ? old($field) : $entry->$field }}" class="form-control row" />@error($field)
+                                    <input id="entry-{{ $id }}-{{ $field }}" name="entry[{{ $id }}][{{ $field }}]" value="{{ old("entry[{$id}][{$field}]") != "" ? old("entry[{$id}][{$field}]") : $entry->$field }}" class="form-control row" />@error($field)
                                     <p class="row text-danger">{{ $errors->first($field) }}</p>
                                 @enderror
+                                @else
+                                    @foreach ($field as $fieldGroup)
+                                <label class="mb-0 col-md-5 col-lg-4 font-weight-bold" for="entry-{{ $id }}-{{ $key }}-{{ $fieldGroup }}">{{ __("layout.disease_{$key}") }}: </label>
+                                <div class="row col">
+                                    @if (isset($entry->$relation))
+                                        @foreach ($entry->$relation as $groupKey => $groupValue)
+                                    <div class="d-flex flex-nowrap row mb-2 w-100">
+                                        <select id="entry-{{ $id }}-{{ $key }}-{{ $fieldGroup }}" name="entry[{{ $id }}][{{ $key }}][{{ $fieldGroup }}]" class="form-control d-inline-block" />
+                                        @foreach ($$key as $groupKey => $groupValue)
+                                            <option value="{{ $groupKey }}">{{ $groupValue }}</option>
+                                        @endforeach
+                                        </select>
+                                        <form action="" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button type="submit" class="btn btn-danger ml-2 mb-1">
+                                                <i class="fas fa-fw fa-times"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                        @endforeach
+                                    @endif
+                                    <select id="entry-{{ $id }}-{{ $key }}-{{ $fieldGroup }}" name="entry[{{ $id }}][{{ $key }}][{{ $fieldGroup }}]" class="form-control row" />
+                                    @foreach ($$key as $groupKey => $groupValue)
+                                        <option value="{{ $groupKey }}">{{ $groupValue }}</option>
+                                    @endforeach
+                                    </select>
+                                    @error($fieldGroup)
+                                    <p class="row text-danger">{{ $errors->first($fieldGroup) }}</p>
+                                @enderror
+                                    @endforeach
+                                @endif
                                 </div>
                             </div>
                         @endforeach

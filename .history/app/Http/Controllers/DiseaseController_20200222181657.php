@@ -14,10 +14,6 @@ class DiseaseController extends Controller
     use MultiSelectTrait;
     use MassActionTrait;
 
-    public function __construct() {
-        $this->middleware(['auth', 'verified']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -76,27 +72,27 @@ class DiseaseController extends Controller
         
         $diseases = Disease::with('groups')->find($params);
         $groupsModel = DiseaseGroup::all();
+        dd($groupsModel->toArray());
         $groups = [];
         
-        foreach ($groupsModel as $item) $groups[$item->id] = $item->name;
+        foreach ($groupsModel as $item) $groups[$item->id] = $groups[$item->name];
         
         $results = [
-            // 'success' => count($diseases),
+            'success' => count($diseases),
             'not_found' => count($params) - count($diseases)
         ];
-        
+
         $messages = $this->createMessage($results);
-        
+
         $fields = [];
         if (isset($diseases[0])) $fields = array_diff(array_keys($diseases[0]->getAttributes()), ['id']);
-        
-        if (isset($groupsModel[0])) {
-            $fields["groups"] = array_diff(array_keys($groupsModel[0]->getAttributes()), ['id']);
-        }
 
+        if (isset($groups[0])) {
+            $fields["groups"] = array_diff(array_keys($groups[0]->getAttributes()), ['id']);
+        }
+        
         $viewData = [
             'entries' => [],
-            'relation' => 'groups',
             'groups' => $groups,
             'fields' => $fields,
             'messages' => $messages

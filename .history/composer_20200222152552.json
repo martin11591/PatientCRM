@@ -10,12 +10,12 @@
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
+        "symfony/translation": "^4.4",
         "jeroennoten/laravel-adminlte": "^3.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0"
     },
     "require-dev": {
-        "symfony/translation-contracts": "^1.1.7",
         "barryvdh/laravel-debugbar": "^3.2",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",

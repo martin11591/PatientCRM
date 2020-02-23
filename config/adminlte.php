@@ -212,12 +212,30 @@ return [
         [
             'text' => 'diseases',
             'icon_color' => 'red',
-            'route' => 'disease.index',
+            'submenu' => [
+                [
+                    'text' => 'diseases',
+                    'route' => 'disease.index',
+                ],
+                [
+                    'text' => 'diseases_groups',
+                    'route' => 'disease.group.index',
+                ],
+            ],
         ],
         [
             'text' => 'medicines',
             'icon_color' => 'lightblue',
-            'route' => 'medicine.index',
+            'submenu' => [
+                [
+                    'text' => 'medicines',
+                    'route' => 'medicine.index',
+                ],
+                [
+                    'text' => 'medicines_groups',
+                    'route' => 'medicine.group.index',
+                ],
+            ],
         ],
     ],
 

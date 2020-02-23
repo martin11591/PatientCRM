@@ -22,5 +22,7 @@ return [
     'visits'                        => 'Wizyty',
     'prescriptions'                 => 'Recepty',
     'diseases'                      => 'Choroby',
-    'medicines'                   => 'Leki',
+    'diseases_groups'               => 'Grupy chorób',
+    'medicines'                     => 'Leki',
+    'medicines_groups'              => 'Grupy leków',
 ];
