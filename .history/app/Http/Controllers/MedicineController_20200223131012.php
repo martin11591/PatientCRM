@@ -108,6 +108,8 @@ class MedicineController extends Controller
          * Becomes Disease model entry
          */
 
+        dd($medicines);
+        
         $results = $this->process($medicines, function($item) {
             $item->delete();
         });

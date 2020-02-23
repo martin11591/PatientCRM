@@ -36,7 +36,7 @@
                     <label class="position-absolute h-100 w-100" style="left: 0; top: 0" for="checkbox-id-{{ $entry->id }}"></label>
                 </td>
                 @foreach ($fields as $field)
-                <td>{{ $entry->$field }}</td>
+                <td class="align-middle">{{ $entry->$field }}</td>
                 @endforeach
                 <td>
                     <a href="{{-- route("{$route}.edit", $entry->id) --}}" class="btn btn-primary m-1" title="{{ __('layout.edit') }}"><i class="fas fa-fw fa-pen"></i></a>

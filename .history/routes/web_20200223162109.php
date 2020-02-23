@@ -37,7 +37,7 @@ Route::prefix('/disease')->name('disease.')->group(function() {
     Route::prefix('/group')->name('group.')->group(function() {
         Route::get('/', 'DiseaseGroupController@index')->name('index');
         Route::get('/edit/{disease}', 'DiseaseGroupController@edit')->where('disease', '.*')->name('edit');
-        Route::put('/{disease}', 'DiseaseGroupController@update')->where('disease', '.*')->name('update');
+        Route::put('/{disease}', 'DiseaseGroupController@update')->name('update');
         Route::delete('/{disease}', 'DiseaseGroupController@destroy')->where('disease', '.*')->name('delete');
     });
     Route::get('/', 'DiseaseController@index')->name('index');
@@ -48,13 +48,13 @@ Route::prefix('/disease')->name('disease.')->group(function() {
 
 Route::prefix('/medicine')->name('medicine.')->group(function() {
     Route::prefix('/group')->name('group.')->group(function() {
+        Route::get('/edit/{medicine}', 'MedicineGroupController@edit')->name('edit');
         Route::get('/', 'MedicineGroupController@index')->name('index');
-        Route::get('/edit/{medicine}', 'MedicineGroupController@edit')->where('medicine', '.*')->name('edit');
-        Route::put('/{medicine}', 'MedicineGroupController@update')->where('medicine', '.*')->name('update');
+        Route::put('/{medicine}', 'MedicineGroupController@update')->name('update');
         Route::delete('/{medicine}', 'MedicineGroupController@destroy')->where('medicine', '.*')->name('delete');
     });
     Route::get('/', 'MedicineController@index')->name('index');
-    Route::get('/edit/{medicine}', 'MedicineController@edit')->where('medicine', '.*')->name('edit');
+    Route::get('/edit/{medicine}', 'MedicineController@edit')->name('edit');
     Route::put('/{medicine}', 'MedicineController@update')->name('update');
     Route::delete('/{medicine}', 'MedicineController@destroy')->where('medicine', '.*')->name('delete');
 });

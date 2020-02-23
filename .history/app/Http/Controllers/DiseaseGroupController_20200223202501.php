@@ -130,6 +130,7 @@ class DiseaseGroupController extends Controller
 
         try {
             foreach ($diseaseGroups as $entry) {
+                dump($entry, $request['entry'][$entry->id]);
                 $entry->update($request
                 ['entry'][$entry->id]);
                 $succeed++;

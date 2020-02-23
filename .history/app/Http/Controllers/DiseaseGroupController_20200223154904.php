@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DiseaseGroup;
 use Illuminate\Http\Request;
-use App\Http\Traits\MultiSelectTrait;
-use App\Http\Traits\MassActionTrait;
+use App\Traits\MassActionTrait;
 
 class DiseaseGroupController extends Controller
 {
-    use MultiSelectTrait;
     use MassActionTrait;
 
     public function __construct() {
@@ -82,27 +80,20 @@ class DiseaseGroupController extends Controller
     {
         $params = $this->getIDsList($diseaseGroup, $request);
         
-        $diseaseGroups = DiseaseGroup::find($params);
-
-        $results = [
-            // 'success' => count($diseases),
-            'not_found' => count($params) - count($diseaseGroups)
-        ];
-        
-        $messages = $this->createMessage($results);
+        $diseaseGroups = DiseaseGroups::find($params);
+        $groupsModel = DiseaseGroup::all();
+        $groups = [];
         
         $fields = [];
         if (isset($diseaseGroups[0])) $fields = array_diff(array_keys($diseaseGroups[0]->getAttributes()), ['id']);
 
-        $viewData = [
+        return view('generic.table_show', [
             'title' => 'disease_group',
             'route' => 'disease.group',
             'entries' => $diseaseGroups,
             'fields' => $fields,
-            'messages' => $messages
-        ];
-
-        return view('generic.edit', $viewData);
+            'perPage' => $perPage,
+        ]);
     }
 
     /**
@@ -112,40 +103,9 @@ class DiseaseGroupController extends Controller
      * @param  \App\DiseaseGroup  $diseaseGroup
      * @return \Illuminate\Http\Response
      */
-    public function update($diseaseGroup, Request $request)
+    public function update(Request $request, DiseaseGroup $diseaseGroup)
     {
-        $params = $this->getIDsList($diseaseGroup, $request);
-        
-        $diseaseGroups = DiseaseGroup::find($params);
-
-        $results = [
-            'not_found' => count($params) - count($diseaseGroups)
-        ];
-        
-        \DB::beginTransaction();
-
-        $succeed = 0;
-
-        $messages = [];
-
-        try {
-            foreach ($diseaseGroups as $entry) {
-                $entry->update($request
-                ['entry'][$entry->id]);
-                $succeed++;
-            }
-
-            \DB::commit();
-        } catch(\Exception $e) {
-            \DB::rollBack();
-            array_push($messages, $e->getMessage());
-        }
-
-        $result['success'] = $succeed;
-
-        $messages = array_merge($messages, $this->createMessage($results));
-
-        return redirect()->route('disease.group.index')->with('messages', $messages);
+        //
     }
 
     /**

@@ -4,14 +4,9 @@ namespace App\Http\Controllers;
 
 use App\MedicineGroup;
 use Illuminate\Http\Request;
-use App\Http\Traits\MultiSelectTrait;
-use App\Http\Traits\MassActionTrait;
 
 class MedicineGroupController extends Controller
 {
-    use MultiSelectTrait;
-    use MassActionTrait;
-    
     public function __construct() {
         $this->middleware(['auth', 'verified']);
     }

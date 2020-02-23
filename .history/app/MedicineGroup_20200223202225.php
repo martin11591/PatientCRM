@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class MedicineGroup extends Model
 {
     public $table = 'group_medicines';
+
     public $guarded = ['id'];
-    public $timestamps = false;
 
     public function medicines()
     {

@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\MedicineGroup;
+use App\DiseaseGroup;
 use Illuminate\Http\Request;
-use App\Http\Traits\MultiSelectTrait;
 use App\Http\Traits\MassActionTrait;
 
-class MedicineGroupController extends Controller
+class DiseaseGroupController extends Controller
 {
-    use MultiSelectTrait;
     use MassActionTrait;
-    
+
     public function __construct() {
         $this->middleware(['auth', 'verified']);
     }
@@ -23,17 +21,18 @@ class MedicineGroupController extends Controller
      */
     public function index(Request $request)
     {
+        // $diseases = Disease::all();
         $perPage = intval($request->input('perPage', 10));
         if (is_nan($perPage)) $perPage = 10;
-        $medicineGroups = MedicineGroup::paginate($perPage);
+        $diseaseGroups = DiseaseGroup::paginate($perPage);
         
         $fields = [];
-        if (isset($medicineGroups[0])) $fields = array_diff(array_keys($medicineGroups[0]->getAttributes()), ['id']);
+        if (isset($diseaseGroups[0])) $fields = array_diff(array_keys($diseaseGroups[0]->getAttributes()), ['id']);
 
         return view('generic.table_show', [
-            'title' => 'medicine_group',
-            'route' => 'medicine.group',
-            'entries' => $medicineGroups,
+            'title' => 'disease_group',
+            'route' => 'disease.group',
+            'entries' => $diseaseGroups,
             'fields' => $fields,
             'perPage' => $perPage,
         ]);
@@ -63,10 +62,10 @@ class MedicineGroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\MedicineGroup  $medicineGroup
+     * @param  \App\DiseaseGroup  $diseaseGroup
      * @return \Illuminate\Http\Response
      */
-    public function show(MedicineGroup $medicineGroup)
+    public function show(DiseaseGroup $diseaseGroup)
     {
         //
     }
@@ -74,29 +73,27 @@ class MedicineGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\MedicineGroup  $medicineGroup
+     * @param  \App\DiseaseGroup  $diseaseGroup
      * @return \Illuminate\Http\Response
      */
-    public function edit($medicineGroup, Request $request)
+    public function edit($diseaseGroup, Request $request)
     {
-        $params = $this->getIDsList($medicineGroup, $request);
+        $params = $this->getIDsList($diseaseGroup, $request);
         
-        $medicineGroups = MedicineGroup::find($params);
+        $diseaseGroups = DiseaseGroup::find($params);
 
         $results = [
-            // 'success' => count($medicines),
-            'not_found' => count($params) - count($medicineGroups)
+            // 'success' => count($diseases),
+            'not_found' => count($params) - count($diseaseGroups)
         ];
         
         $messages = $this->createMessage($results);
         
         $fields = [];
-        if (isset($medicineGroups[0])) $fields = array_diff(array_keys($medicineGroups[0]->getAttributes()), ['id']);
+        if (isset($diseaseGroups[0])) $fields = array_diff(array_keys($diseaseGroups[0]->getAttributes()), ['id']);
 
         $viewData = [
-            'title' => 'medicine_group',
-            'route' => 'medicine.group',
-            'entries' => $medicineGroups,
+            'entries' => $diseaseGroups,
             'fields' => $fields,
             'messages' => $messages
         ];
@@ -108,10 +105,10 @@ class MedicineGroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MedicineGroup  $medicineGroup
+     * @param  \App\DiseaseGroup  $diseaseGroup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MedicineGroup $medicineGroup)
+    public function update(Request $request, DiseaseGroup $diseaseGroup)
     {
         //
     }
@@ -119,10 +116,10 @@ class MedicineGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MedicineGroup  $medicineGroup
+     * @param  \App\DiseaseGroup  $diseaseGroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MedicineGroup $medicineGroup)
+    public function destroy(DiseaseGroup $diseaseGroup)
     {
         //
     }

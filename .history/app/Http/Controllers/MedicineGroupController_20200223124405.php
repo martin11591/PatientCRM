@@ -4,14 +4,9 @@ namespace App\Http\Controllers;
 
 use App\MedicineGroup;
 use Illuminate\Http\Request;
-use App\Http\Traits\MultiSelectTrait;
-use App\Http\Traits\MassActionTrait;
 
 class MedicineGroupController extends Controller
 {
-    use MultiSelectTrait;
-    use MassActionTrait;
-    
     public function __construct() {
         $this->middleware(['auth', 'verified']);
     }
@@ -30,7 +25,7 @@ class MedicineGroupController extends Controller
         $fields = [];
         if (isset($medicineGroups[0])) $fields = array_diff(array_keys($medicineGroups[0]->getAttributes()), ['id']);
 
-        return view('generic.table_show', [
+        return view('generic_simple_form', [
             'title' => 'medicine_group',
             'route' => 'medicine.group',
             'entries' => $medicineGroups,
@@ -77,31 +72,9 @@ class MedicineGroupController extends Controller
      * @param  \App\MedicineGroup  $medicineGroup
      * @return \Illuminate\Http\Response
      */
-    public function edit($medicineGroup, Request $request)
+    public function edit(MedicineGroup $medicineGroup)
     {
-        $params = $this->getIDsList($medicineGroup, $request);
-        
-        $medicineGroups = MedicineGroup::find($params);
-
-        $results = [
-            // 'success' => count($medicines),
-            'not_found' => count($params) - count($medicineGroups)
-        ];
-        
-        $messages = $this->createMessage($results);
-        
-        $fields = [];
-        if (isset($medicineGroups[0])) $fields = array_diff(array_keys($medicineGroups[0]->getAttributes()), ['id']);
-
-        $viewData = [
-            'title' => 'medicine_group',
-            'route' => 'medicine.group',
-            'entries' => $medicineGroups,
-            'fields' => $fields,
-            'messages' => $messages
-        ];
-
-        return view('generic.edit', $viewData);
+        //
     }
 
     /**

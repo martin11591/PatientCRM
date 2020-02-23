@@ -126,24 +126,22 @@ class DiseaseGroupController extends Controller
 
         $succeed = 0;
 
-        $messages = [];
-
         try {
             foreach ($diseaseGroups as $entry) {
-                $entry->update($request
-                ['entry'][$entry->id]);
+                $entry->update($request[$entry->id]);
                 $succeed++;
             }
 
             \DB::commit();
         } catch(\Exception $e) {
             \DB::rollBack();
-            array_push($messages, $e->getMessage());
         }
 
         $result['success'] = $succeed;
 
-        $messages = array_merge($messages, $this->createMessage($results));
+        $messages = $this->createMessage($results);
+
+        dd($messages);
 
         return redirect()->route('disease.group.index')->with('messages', $messages);
     }

@@ -117,6 +117,8 @@ class MedicineController extends Controller
             'fail' => 'layout.items_delete_error',
             'success' => 'layout.items_delete_success',
         ]);
+
+        dd($messages);
         
         return redirect(route('medicine.index'))->with(['messages' => $messages]);
     }

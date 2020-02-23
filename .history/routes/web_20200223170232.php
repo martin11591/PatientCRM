@@ -37,7 +37,7 @@ Route::prefix('/disease')->name('disease.')->group(function() {
     Route::prefix('/group')->name('group.')->group(function() {
         Route::get('/', 'DiseaseGroupController@index')->name('index');
         Route::get('/edit/{disease}', 'DiseaseGroupController@edit')->where('disease', '.*')->name('edit');
-        Route::put('/{disease}', 'DiseaseGroupController@update')->where('disease', '.*')->name('update');
+        Route::put('/{disease}', 'DiseaseGroupController@update')->name('update');
         Route::delete('/{disease}', 'DiseaseGroupController@destroy')->where('disease', '.*')->name('delete');
     });
     Route::get('/', 'DiseaseController@index')->name('index');

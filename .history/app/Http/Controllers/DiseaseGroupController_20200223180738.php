@@ -130,8 +130,7 @@ class DiseaseGroupController extends Controller
 
         try {
             foreach ($diseaseGroups as $entry) {
-                $entry->update($request
-                ['entry'][$entry->id]);
+                $entry->update($request->$entry[$entry->id]);
                 $succeed++;
             }
 
@@ -143,7 +142,7 @@ class DiseaseGroupController extends Controller
 
         $result['success'] = $succeed;
 
-        $messages = array_merge($messages, $this->createMessage($results));
+        array_push($messages, $this->createMessage($results));
 
         return redirect()->route('disease.group.index')->with('messages', $messages);
     }
