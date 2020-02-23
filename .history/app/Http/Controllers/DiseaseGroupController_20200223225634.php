@@ -49,7 +49,7 @@ class DiseaseGroupController extends Controller
     {
         $amount = (int)($amount);
         if ($amount < 1) $amount = 1;
-
+        
         /**
          * Get columns from model table
          */
@@ -64,10 +64,9 @@ class DiseaseGroupController extends Controller
             'title' => 'disease_group',
             'route' => 'disease.group',
             'fields' => $fields,
-            'amount' => $amount,
         ];
 
-        return view('generic.create', $viewData);
+        return view('generic.edit', $viewData);
     }
 
     /**

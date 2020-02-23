@@ -44,29 +44,9 @@ class MedicineGroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($amount = 1)
+    public function create()
     {
-        $amount = (int)($amount);
-        if ($amount < 1) $amount = 1;
-
-        /**
-         * Get columns from model table
-         */
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new MedicineGroup)->table);
-
-        /**
-         * Hide columns which shouldn't be edited
-         */
-        $fields = array_diff($fields, ['id']);
-
-        $viewData = [
-            'title' => 'medicine_group',
-            'route' => 'medicine.group',
-            'fields' => $fields,
-            'amount' => $amount,
-        ];
-
-        return view('generic.create', $viewData);
+        //
     }
 
     /**

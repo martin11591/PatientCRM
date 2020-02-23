@@ -45,29 +45,9 @@ class DiseaseGroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($amount = 1)
+    public function create()
     {
-        $amount = (int)($amount);
-        if ($amount < 1) $amount = 1;
-
-        /**
-         * Get columns from model table
-         */
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new DiseaseGroup)->table);
-
-        /**
-         * Hide columns which shouldn't be edited
-         */
-        $fields = array_diff($fields, ['id']);
-
-        $viewData = [
-            'title' => 'disease_group',
-            'route' => 'disease.group',
-            'fields' => $fields,
-            'amount' => $amount,
-        ];
-
-        return view('generic.create', $viewData);
+        //
     }
 
     /**
@@ -120,6 +100,7 @@ class DiseaseGroupController extends Controller
          * Hide columns which shouldn't be edited
          */
         $fields = array_diff($fields, ['id']);
+        dd($fields);
 
         $viewData = [
             'title' => 'disease_group',

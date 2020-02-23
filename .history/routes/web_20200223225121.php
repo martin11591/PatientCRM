@@ -35,8 +35,8 @@ Route::prefix('/patient')->namespace('Patient')->name('patient.')->group(functio
 
 Route::prefix('/disease')->name('disease.')->group(function() {
     Route::prefix('/group')->name('group.')->group(function() {
-        Route::get('/create/{amount?}', 'DiseaseGroupController@create')->where('amount', '.*')->name('create');
         Route::get('/', 'DiseaseGroupController@index')->name('index');
+        Route::get('/create/{amount?}', 'DiseaseGroupController@create')->where('amount', '.*')->name('create');
         Route::post('/', 'DiseaseGroupController@store')->name('store');
         Route::get('/edit/{disease}', 'DiseaseGroupController@edit')->where('disease', '.*')->name('edit');
         Route::put('/{disease}', 'DiseaseGroupController@update')->where('disease', '.*')->name('update');
@@ -50,9 +50,9 @@ Route::prefix('/disease')->name('disease.')->group(function() {
 
 Route::prefix('/medicine')->name('medicine.')->group(function() {
     Route::prefix('/group')->name('group.')->group(function() {
-        Route::get('/create/{amount?}', 'MedicineGroupController@create')->where('amount', '.*')->name('create');
         Route::get('/', 'MedicineGroupController@index')->name('index');
-        Route::post('/', 'MedicineGroupController@store')->name('store');
+        Route::get('/create/{amount?}', 'MedicineGroupController@create')->where('amount', '.*')->name('create');
+        Route::post('/', 'MedicineGroupController@store')->name('create');
         Route::get('/edit/{medicine}', 'MedicineGroupController@edit')->where('medicine', '.*')->name('edit');
         Route::put('/{medicine}', 'MedicineGroupController@update')->where('medicine', '.*')->name('update');
         Route::delete('/{medicine}', 'MedicineGroupController@destroy')->where('medicine', '.*')->name('delete');

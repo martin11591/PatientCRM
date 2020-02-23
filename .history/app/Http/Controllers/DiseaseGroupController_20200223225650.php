@@ -67,7 +67,7 @@ class DiseaseGroupController extends Controller
             'amount' => $amount,
         ];
 
-        return view('generic.create', $viewData);
+        return view('generic.edit', $viewData);
     }
 
     /**

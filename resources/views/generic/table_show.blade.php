@@ -29,6 +29,11 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td colspan="{{ count($fields) + 2 }}" class="text-center">
+                    <a href="{{ route("{$route}.create") }}" class="btn btn-success m-1"><i class="fas fa-fw fa-plus"></i></a>
+                </td>
+            </tr>
         @foreach ($entries as $entry)
             <tr>
                 <td class="position-relative align-middle text-center">
