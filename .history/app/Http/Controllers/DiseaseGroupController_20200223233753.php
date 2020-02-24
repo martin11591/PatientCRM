@@ -78,27 +78,7 @@ class DiseaseGroupController extends Controller
      */
     public function store(Request $request)
     {
-        \DB::beginTransaction();
-
-        $succeed = 0;
-
-        $messages = [];
-
-        try {
-            foreach ($request->entry as $entry) {
-                DiseaseGroup::create($entry);
-                $succeed++;
-            }
-
-            \DB::commit();
-        } catch (\Exception $e) {
-            array_push($messages, $e->getMessage());
-            \DB::rollBack();
-        }
-        
-        $messages = array_merge($this->createMessage(['success' => $succeed]));
-
-        return redirect()->route('disease.group.index')->with('messages', $messages);
+        dd($request->entry);
     }
 
     /**
@@ -161,7 +141,7 @@ class DiseaseGroupController extends Controller
      */
     public function update($diseaseGroup, Request $request)
     {
-        $params = $this->getIDsList(implode("/", array_keys($request['entry'])), $request);
+        $params = $this->getIDsList($diseaseGroup, $request);
         
         $diseaseGroups = DiseaseGroup::find($params);
 
@@ -201,31 +181,8 @@ class DiseaseGroupController extends Controller
      * @param  \App\DiseaseGroup  $diseaseGroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy($diseaseGroups, Request $request)
+    public function destroy(DiseaseGroup $diseaseGroup)
     {
-        $params = $this->getIDsList($diseaseGroups, $request);
-        
-        /**
-         * Get all specified entries
-         */
-        $groups = DiseaseGroup::find($params);
-
-        /**
-         * Do job on every item
-         * Route param 'disease' ($diseaseGroups)
-         * Becomes Disease model entry
-         */
-
-        $results = $this->process($groups, function($item) {
-            $item->delete();
-        });
-        $results['not_found'] = count($params) - count($groups);
-
-        $messages = $this->createMessage($results, [
-            'fail' => 'layout.items_delete_error',
-            'success' => 'layout.items_delete_success',
-        ]);
-        
-        return redirect(route('disease.group.index'))->with(['messages' => $messages]);
+        //
     }
 }

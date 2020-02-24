@@ -77,27 +77,7 @@ class MedicineGroupController extends Controller
      */
     public function store(Request $request)
     {
-        \DB::beginTransaction();
-
-        $succeed = 0;
-
-        $messages = [];
-
-        try {
-            foreach ($request->entry as $entry) {
-                MedicineGroup::create($entry);
-                $succeed++;
-            }
-
-            \DB::commit();
-        } catch (\Exception $e) {
-            array_push($messages, $e->getMessage());
-            \DB::rollBack();
-        }
-        
-        $messages = array_merge($this->createMessage(['success' => $succeed]));
-
-        return redirect()->route('medicine.group.index')->with('messages', $messages);
+        //
     }
 
     /**
@@ -147,8 +127,6 @@ class MedicineGroupController extends Controller
             'fields' => $fields,
             'messages' => $messages
         ];
-
-        dd($medicineGroups);
 
         return view('generic.edit', $viewData);
     }

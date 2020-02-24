@@ -9,7 +9,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{ route("{$route}.update", 'post') }}">
+                    <form method="POST" action="{{ route("{$route}.update", $entries) --}}">
                     @csrf
                     @method('PUT')
                     @foreach ($entries as $entry)

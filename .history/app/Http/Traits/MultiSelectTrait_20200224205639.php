@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 trait MultiSelectTrait {
     private function getIDsList($collection, $request) {
+        if (isset($request->innerField)) $request = $request->innerField;
+        
         /**
          * Get multiple IDs in route by slashes (1/2/3)
          */

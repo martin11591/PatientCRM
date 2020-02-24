@@ -148,8 +148,6 @@ class MedicineGroupController extends Controller
             'messages' => $messages
         ];
 
-        dd($medicineGroups);
-
         return view('generic.edit', $viewData);
     }
 

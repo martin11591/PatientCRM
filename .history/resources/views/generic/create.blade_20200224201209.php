@@ -24,9 +24,9 @@
                         @endforeach
                     @endfor
                         <div class="row">
-                            <a href="{{ route("{$route}.create", $amount + 1) }}" class="btn btn-success ml-auto mt-4">{{ __('layout.add') }}</a>
-                            <a href="{{ route("{$route}.index") }}" class="btn btn-secondary ml-2 mt-4">{{ __('layout.cancel') }}</a>
-                            <input type="submit" value="{{ __('layout.save') }}" class="btn btn-primary ml-2 mt-4" />
+                            <a href="{{ route("{$route}.create", $amount + 1 }}" class="btn btn-success ml-auto mt-4">{{ __('layout.add') }}</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary ml-2 mt-4">{{ __('layout.cancel') }}</a>
+                            <input type="submit" value="{{ __('layout.add') }}" class="btn btn-primary ml-2 mt-4" />
                         </div>
                     </form>
                 </div>

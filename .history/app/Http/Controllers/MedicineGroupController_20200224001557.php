@@ -77,27 +77,7 @@ class MedicineGroupController extends Controller
      */
     public function store(Request $request)
     {
-        \DB::beginTransaction();
-
-        $succeed = 0;
-
-        $messages = [];
-
-        try {
-            foreach ($request->entry as $entry) {
-                MedicineGroup::create($entry);
-                $succeed++;
-            }
-
-            \DB::commit();
-        } catch (\Exception $e) {
-            array_push($messages, $e->getMessage());
-            \DB::rollBack();
-        }
-        
-        $messages = array_merge($this->createMessage(['success' => $succeed]));
-
-        return redirect()->route('medicine.group.index')->with('messages', $messages);
+        //
     }
 
     /**
@@ -148,8 +128,6 @@ class MedicineGroupController extends Controller
             'messages' => $messages
         ];
 
-        dd($medicineGroups);
-
         return view('generic.edit', $viewData);
     }
 
@@ -196,6 +174,6 @@ class MedicineGroupController extends Controller
             'success' => 'layout.items_delete_success',
         ]);
         
-        return redirect(route('medicine.group.index'))->with(['messages' => $messages]);
+        return redirect(route('medicine.groups.index'))->with(['messages' => $messages]);
     }
 }
