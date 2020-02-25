@@ -12,7 +12,7 @@
                     <form method="POST" action="{{ route("{$route}.store") }}">
                     @csrf
                     @for ($index = 1; $index <= $amount; $index++)
-                        @if ($index != 1)
+                        @if (!$loop->first)
                         <hr>
                         @endif
                         @foreach ($fields as $field)

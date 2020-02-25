@@ -113,9 +113,9 @@ class DiseaseController extends Controller
      * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Disease $disease)
+    public function update($disease, Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

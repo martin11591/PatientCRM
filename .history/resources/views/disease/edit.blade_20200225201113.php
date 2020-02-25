@@ -28,17 +28,17 @@
                                     @if (isset($entry->$relation))
                                         @foreach ($entry->$relation as $groupKey => $groupValue)
                                     <div class="d-flex flex-nowrap row mb-2 w-100">
-                                        <select{{-- id="entry-{{ $id }}-{{ $key }}-{{ $fieldGroup }}"--}} name="entry[{{ $id }}][{{ $key }}][]" class="form-control d-inline-block" form="diseaseUpdate">
+                                        <select{{-- id="entry-{{ $id }}-{{ $key }}-{{ $fieldGroup }}"--}} name="entry[{{ $id }}][{{ $key }}][id][]" class="form-control d-inline-block" />
                                             <option value=""></option>
                                             @foreach ($$key as $inGroupKey => $inGroupValue)
                                             <option value="{{ $inGroupKey }}"@if ($groupValue->id === $inGroupKey) selected="selected"@endif>{{ $inGroupValue }}</option>
                                             @endforeach
                                         </select>
-                                        {{--@if ($loop->last)
+                                        @if ($loop->last)
                                         <button class="btn btn-success ml-2 mb-1">
                                             <i class="fas fa-fw fa-plus"></i>
                                         </button>
-                                        @else--}}
+                                        @else
                                         <form action="" method="POST">
                                             @csrf
                                             @method("DELETE")
@@ -46,13 +46,13 @@
                                                 <i class="fas fa-fw fa-times"></i>
                                             </button>
                                         </form>
-                                        {{--@endif--}}
+                                        @endif
                                     </div>
                                         @endforeach
                                     @endif
-                                {{--@if (count($entry->$relation) < 1)--}}
+                                @if (count($entry->$relation) < 1)
                                 <div class="d-flex flex-nowrap row mb-2 w-100">
-                                    <select id="entry-{{ $id }}-{{ $key }}-{{ $fieldGroup }}" name="entry[{{ $id }}][{{ $key }}][]" class="form-control d-inline-block" form="diseaseUpdate">
+                                    <select id="entry-{{ $id }}-{{ $key }}-{{ $fieldGroup }}" name="entry[{{ $id }}][{{ $key }}][id][]" class="form-control d-inline-block" />
                                         <option value=""></option>
                                     @foreach ($$key as $groupKey => $groupValue)
                                         <option value="{{ $groupKey }}">{{ $groupValue }}</option>
@@ -65,7 +65,7 @@
                                     <p class="row text-danger">{{ $errors->first($fieldGroup) }}</p>
                                 @enderror
                                 </div>
-                                {{--@endif--}}
+                                @endif
                                     @endforeach
                                 @endif
                                 </div>
@@ -73,7 +73,7 @@
                         @endforeach
                     @endforeach
                         <div class="row">
-                            <a href="{{ route('disease.index', 'post') }}" class="btn btn-secondary ml-auto mt-4">{{ __('layout.cancel') }}</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary ml-auto mt-4">{{ __('layout.cancel') }}</a>
                             <form id="diseaseUpdate" method="POST" action="{{ route('disease.update', 'post') }}">
                             @csrf
                             @method('PUT')
@@ -91,18 +91,12 @@
     <script type="text/javascript">
     (function()
         {
-            @component('partials.js.addsubentry')
-                @slot('container')
-                    .card-body
+            @component('partials.js.addSubEntry')
+                @slot('table_id')
                 @endslot
-                @slot('button_add')
-                    button.btn-success
+                @slot('global_selector')
                 @endslot
-                @slot('button_delete')
-                    button.btn-danger
-                @endslot
-                @slot('elements')
-                    {!! json_encode($groups) !!}
+                @slot('local_selector')
                 @endslot
             @endcomponent
         }

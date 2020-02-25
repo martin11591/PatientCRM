@@ -158,40 +158,9 @@ class MedicineGroupController extends Controller
      * @param  \App\MedicineGroup  $medicineGroup
      * @return \Illuminate\Http\Response
      */
-    public function update($medicineGroup, Request $request)
+    public function update(Request $request, MedicineGroup $medicineGroup)
     {
-        $params = $this->getIDsList(implode("/", array_keys($request['entry'])), $request);
-        
-        $medicineGroups = MedicineGroup::find($params);
-
-        $results = [
-            'not_found' => count($params) - count($medicineGroups)
-        ];
-        
-        \DB::beginTransaction();
-
-        $succeed = 0;
-
-        $messages = [];
-
-        try {
-            foreach ($medicineGroups as $entry) {
-                $entry->update($request
-                ['entry'][$entry->id]);
-                $succeed++;
-            }
-
-            \DB::commit();
-        } catch(\Exception $e) {
-            \DB::rollBack();
-            array_push($messages, $e->getMessage());
-        }
-
-        $result['success'] = $succeed;
-
-        $messages = array_merge($messages, $this->createMessage($results));
-
-        return redirect()->route('medicine.group.index')->with('messages', $messages);
+        //
     }
 
     /**
