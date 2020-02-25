@@ -149,7 +149,7 @@ class DiseaseController extends Controller
             array_push($messages, $e->getMessage());
         }
         
-        // dd($params, $results, $request, $diseases);
+        // dd($params, $results, $request, $diseases);       
 
         $result['success'] = $succeed;
 

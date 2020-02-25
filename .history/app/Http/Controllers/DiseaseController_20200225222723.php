@@ -136,20 +136,21 @@ class DiseaseController extends Controller
                 // REMOVING GROUPS WITH ARE SELECTED AS EMPTY OR NOT LISTED
                 foreach ($groups as $group) {
                     if (array_search($group->id, $request['entry'][$disease->id]['groups']) === false) {
-                        dump($group->id, $request['entry'][$disease->id]['groups'], $disease->pivot);
-                        $disease->groups()->detach();
+                        dump($group->id, $request['entry'][$disease->id]['groups']);
+                        $disease->groups()->find($group->id)->delete();
                     }
                 }
 
                 $succeed++;
             }
+            dd($succeed);
             \DB::commit();
         } catch (\Exception $e) {
             \DB::rollBack();
             array_push($messages, $e->getMessage());
         }
-        
-        // dd($params, $results, $request, $diseases);
+
+        // dd($params, $results, $request, $diseases);       
 
         $result['success'] = $succeed;
 

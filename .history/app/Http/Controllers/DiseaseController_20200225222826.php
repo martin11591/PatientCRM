@@ -137,7 +137,7 @@ class DiseaseController extends Controller
                 foreach ($groups as $group) {
                     if (array_search($group->id, $request['entry'][$disease->id]['groups']) === false) {
                         dump($group->id, $request['entry'][$disease->id]['groups'], $disease->pivot);
-                        $disease->groups()->detach();
+                        // $disease->groups()->find($group->id)->delete();
                     }
                 }
 
@@ -149,7 +149,7 @@ class DiseaseController extends Controller
             array_push($messages, $e->getMessage());
         }
         
-        // dd($params, $results, $request, $diseases);
+        dd($params, $results, $request, $diseases);       
 
         $result['success'] = $succeed;
 

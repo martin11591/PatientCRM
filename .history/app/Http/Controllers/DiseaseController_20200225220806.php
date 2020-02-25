@@ -123,38 +123,25 @@ class DiseaseController extends Controller
             'not_found' => count($params) - count($diseases)
         ];
 
-        $succeed = 0;
-
-        $messages = [];
-
-        \DB::beginTransaction();
+        // \DB::beginTransaction();
 
         try {
             foreach ($diseases as $disease) {
                 $groups = $disease->groups()->get();
-                
-                // REMOVING GROUPS WITH ARE SELECTED AS EMPTY OR NOT LISTED
                 foreach ($groups as $group) {
-                    if (array_search($group->id, $request['entry'][$disease->id]['groups']) === false) {
-                        dump($group->id, $request['entry'][$disease->id]['groups'], $disease->pivot);
-                        $disease->groups()->detach();
+                    if (array_search($group->id, $request['entry'][$disease->id]) === false) {
+                        dump($group->id, $request['entry'][$disease->id]);    
                     }
                 }
-
-                $succeed++;
             }
-            \DB::commit();
+
+            // \DB::commit();
         } catch (\Exception $e) {
-            \DB::rollBack();
+            // \DB::rollBack();
             array_push($messages, $e->getMessage());
         }
-        
-        // dd($params, $results, $request, $diseases);
 
-        $result['success'] = $succeed;
-
-        $messages = array_merge($messages, $this->createMessage($results));
-        return redirect()->route('disease.edit', implode("/", $params))->with(['messages' => $messages]);
+        dd($params, $results, $request, $diseases);
     }
 
     /**

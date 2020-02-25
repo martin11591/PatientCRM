@@ -125,8 +125,6 @@ class DiseaseController extends Controller
 
         $succeed = 0;
 
-        $messages = [];
-
         \DB::beginTransaction();
 
         try {
@@ -136,25 +134,26 @@ class DiseaseController extends Controller
                 // REMOVING GROUPS WITH ARE SELECTED AS EMPTY OR NOT LISTED
                 foreach ($groups as $group) {
                     if (array_search($group->id, $request['entry'][$disease->id]['groups']) === false) {
-                        dump($group->id, $request['entry'][$disease->id]['groups'], $disease->pivot);
-                        $disease->groups()->detach();
+                        dump($group->id, $request['entry'][$disease->id]['groups']);
+                        $disease->groups()->find($group->id)->dissociate();
                     }
                 }
 
                 $succeed++;
             }
+
             \DB::commit();
         } catch (\Exception $e) {
             \DB::rollBack();
             array_push($messages, $e->getMessage());
         }
-        
-        // dd($params, $results, $request, $diseases);
+
+        // dd($params, $results, $request, $diseases);       
 
         $result['success'] = $succeed;
 
         $messages = array_merge($messages, $this->createMessage($results));
-        return redirect()->route('disease.edit', implode("/", $params))->with(['messages' => $messages]);
+        return redirect()->route('disease.edit')->with(['messages' => $messages]);
     }
 
     /**
