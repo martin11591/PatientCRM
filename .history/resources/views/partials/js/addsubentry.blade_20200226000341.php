@@ -11,6 +11,11 @@
 
             var previous = clickedElement.closest('div').prev().find('select');
 
+            console.log(previous, {
+                id: previous[0].id,
+                name: previous.attr('name')
+            });
+
             selector.attr({
                 id: previous.attr('id'),
                 name: previous.attr('name')

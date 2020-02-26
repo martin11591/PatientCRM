@@ -124,35 +124,44 @@ class DiseaseController extends Controller
         ];
 
         $succeed = 0;
-        $failed = 0;
 
         $messages = [];
 
         \DB::beginTransaction();
 
-        foreach ($diseases as $disease) {
-            try {
-                $disease->groups()->sync(array_filter($request['entry'][$disease->id]['groups'], function($item) {
-                    if ($item !== null) return true;
-                    return false;
-                }));
+        try {
+            foreach ($diseases as $disease) {
+                $groups = $disease->groups()->get();
+                
+                // REMOVING GROUPS WHICH ARE SELECTED AS EMPTY OR NOT LISTED
+                foreach ($groups as $group) {
+                    if (array_search($group->id, $request['entry'][$disease->id]['groups']) === false) {
+                        $disease->groups()->detach();
+                    }
+                }
+                
+                // ADDING GROUPS WHICH ARE SELECTED AND AREN'T ASSIGNED
+                foreach ($request['entry'][$disease->id]['groups'] as $group => $entry) {
+                    array_push($messages, "{$entry}");
+                    if (count($groups->where('id', $group)) == 0) {
+                        $disease->groups()->attach($group);
+                    }
+                }
+
                 $succeed++;
-                \DB::commit();
-            } catch (\Exception $e) {
-                \DB::rollBack();
-                array_push($messages, $disease->id . " => " . $e->getMessage());
-                $failed++;
             }
+            \DB::commit();
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            array_push($messages, $e->getMessage());
         }
         
-        $results['success'] = $succeed;
-        $results['fail'] = $failed;
+        // dd($params, $results, $request, $diseases);
+
+        $result['success'] = $succeed;
 
         $messages = array_merge($messages, $this->createMessage($results));
-
-        if ($succeed == 0 && $failed == 0) array_push($messages, __('layout.no_changes'));
-        
-        return redirect()->route('disease.edit', implode("/", $params))->with('messages', $messages);
+        return redirect()->route('disease.edit', implode("/", $params))->with(['messages' => $messages]);
     }
 
     /**
@@ -177,15 +186,7 @@ class DiseaseController extends Controller
          */
 
         $results = $this->process($diseases, function($item) {
-            \DB::beginTransaction();
-            try {
-                $item->groups()->detach();
-                $item->delete();
-                \DB::commit();
-            } catch (\Exception $e) {
-                \DB::rollBack();
-                throw new Exception ($e);
-            }
+            $item->delete();
         });
         $results['not_found'] = count($params) - count($diseases);
 

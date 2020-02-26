@@ -49,5 +49,5 @@ return [
     'data_update_success' => 'Dane zaktualizowano pomyślnie.',
     'data_update_error_id_not_given' => 'Błąd aktualizacji danych - nie podano identyfikatora.',
 
-    'no_changes' => 'Bez zmian.',
+    'no_changes' => 'Bez zmian',
 ];

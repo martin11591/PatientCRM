@@ -184,7 +184,7 @@ class DiseaseController extends Controller
                 \DB::commit();
             } catch (\Exception $e) {
                 \DB::rollBack();
-                throw new Exception ($e);
+                throw(new Exception);
             }
         });
         $results['not_found'] = count($params) - count($diseases);

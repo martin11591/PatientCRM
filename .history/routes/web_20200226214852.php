@@ -44,7 +44,6 @@ Route::prefix('/disease')->name('disease.')->group(function() {
     });
     Route::get('/', 'DiseaseController@index')->name('index');
     Route::get('/create/{amount?}', 'DiseaseController@create')->where('amount', '.*')->name('create');
-    Route::post('/', 'DiseaseController@store')->name('store');
     Route::get('/edit/{disease}', 'DiseaseController@edit')->where('disease', '.*')->name('edit');
     Route::put('/{disease}', 'DiseaseController@update')->name('update');
     Route::delete('/{disease}', 'DiseaseController@destroy')->where('disease', '.*')->name('delete');

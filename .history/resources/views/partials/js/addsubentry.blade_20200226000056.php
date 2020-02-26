@@ -9,13 +9,13 @@
                 selector.append('<option value="' + e + '">' + elements[e] + '</option>');
             }
 
-            var previous = clickedElement.closest('div').prev().find('select');
+            var previous = clickedElement.closest('div').previousSibling().find('select');
 
             selector.attr({
                 id: previous.attr('id'),
                 name: previous.attr('name')
             });
-
+            
             selectorContainer.append(selector);
 
             var deleteButton = $('<form action="" method="POST"><input type="hidden" name="_method" value="DELETE"><button type="submit" class="btn btn-danger ml-2 mb-1"><i class="fas fa-fw fa-times"></i></button></form>');

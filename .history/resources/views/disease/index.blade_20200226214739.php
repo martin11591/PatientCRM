@@ -30,7 +30,7 @@
         <tbody>
             <tr>
                 <td colspan="4" class="text-center">
-                    <a href="{{ route("disease.create") }}" class="btn btn-success m-1"><i class="fas fa-fw fa-plus"></i></a>
+                    <a href="{{ route("{$route}.create") }}" class="btn btn-success m-1"><i class="fas fa-fw fa-plus"></i></a>
                 </td>
             </tr>
         @foreach ($diseases as $disease)

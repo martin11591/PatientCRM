@@ -130,12 +130,15 @@ class DiseaseController extends Controller
 
         \DB::beginTransaction();
 
+        // REQUEST STATE
+        $txt = "";
+        foreach ($request['entry'] as $id => $val) $txt .= ($txt == "" ? "" : "<br><br>") . "{$val['name']} ($id)<br><br>" . implode(", ", $val['groups']);
+
+        array_push($messages, $txt);
+
         foreach ($diseases as $disease) {
             try {
-                $disease->groups()->sync(array_filter($request['entry'][$disease->id]['groups'], function($item) {
-                    if ($item !== null) return true;
-                    return false;
-                }));
+                $disease->groups()->sync($request['entry'][$disease->id]['groups']);
                 $succeed++;
                 \DB::commit();
             } catch (\Exception $e) {
@@ -151,6 +154,8 @@ class DiseaseController extends Controller
         $messages = array_merge($messages, $this->createMessage($results));
 
         if ($succeed == 0 && $failed == 0) array_push($messages, __('layout.no_changes'));
+
+        // dd($request);
         
         return redirect()->route('disease.edit', implode("/", $params))->with('messages', $messages);
     }
@@ -177,15 +182,7 @@ class DiseaseController extends Controller
          */
 
         $results = $this->process($diseases, function($item) {
-            \DB::beginTransaction();
-            try {
-                $item->groups()->detach();
-                $item->delete();
-                \DB::commit();
-            } catch (\Exception $e) {
-                \DB::rollBack();
-                throw new Exception ($e);
-            }
+            $item->delete();
         });
         $results['not_found'] = count($params) - count($diseases);
 
