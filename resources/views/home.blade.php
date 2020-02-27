@@ -21,7 +21,7 @@
 @if (Session::has('messages') || isset($messages))
     @section('body')
         @parent
-        <div aria-live="polite" aria-atomic="true" style="position: absolute; top: 72px; right: 16px; z-index: 2000">
+        <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 16px; right: 16px; bottom: 16px; z-index: 2000">
             @if (Session::has('messages'))
                 @foreach (Session::get('messages') as $message)
                     @component('partials.toast')

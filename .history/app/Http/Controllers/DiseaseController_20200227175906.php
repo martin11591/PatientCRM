@@ -133,7 +133,6 @@ class DiseaseController extends Controller
         foreach ($diseases as $disease) {
             try {
                 $disease->fill(['name' => $request['entry'][$disease->id]['name']]);
-                $disease->save();
                 $disease->groups()->sync(array_filter($request['entry'][$disease->id]['groups'], function($item) {
                     if ($item !== null) return true;
                     return false;

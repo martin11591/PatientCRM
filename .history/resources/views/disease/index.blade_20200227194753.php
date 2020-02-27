@@ -59,8 +59,8 @@
     <section class="paginator d-table mx-auto mt-3">
         {{ $perPage != 10 ? $diseases->appends(['perPage' => $perPage])->links() : $diseases->links() }}
     </section>
-    @endif
     @include('partials.per_page')
+    @endif
 @endsection
 
 @section('js')

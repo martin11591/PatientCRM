@@ -62,7 +62,13 @@
         {{ $perPage != 10 ? $entries->appends(['perPage' => $perPage])->links() : $entries->links() }}
     </section>
     @endif
-    @include('partials.per_page')
+    <section class="per-page d-table mx-auto mt-3 text-center">
+        <em>{{ __('layout.per_page') }}: {{ request()->perPage }}</em><br>
+        <a class="mx-2" href="?perPage=10">10</a>
+        <a class="mx-2" href="?perPage=20">20</a>
+        <a class="mx-2" href="?perPage=50">50</a>
+        <a class="mx-2" href="?perPage=100">100</a>
+    </section>
 @endsection
 
 @section('js')

@@ -61,8 +61,13 @@
     <section class="paginator d-table mx-auto mt-3">
         {{ $perPage != 10 ? $entries->appends(['perPage' => $perPage])->links() : $entries->links() }}
     </section>
+    <section class="per-page d-table mx-auto mt-3">
+        <a class="mx-3" href="?perPage=10">10</a>
+        <a class="mx-3" href="?perPage=20">20</a>
+        <a class="mx-3" href="?perPage=50">50</a>
+        <a class="mx-3" href="?perPage=100">100</a>
+    </section>
     @endif
-    @include('partials.per_page')
 @endsection
 
 @section('js')

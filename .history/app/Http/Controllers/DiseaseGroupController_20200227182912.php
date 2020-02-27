@@ -56,25 +56,18 @@ class DiseaseGroupController extends Controller
         $fields = \DB::getSchemaBuilder()->getColumnListing((new DiseaseGroup)->table);
 
         /**
-         * HiDe columns which shouldn't be edited
+         * Hide columns which shouldn't be edited
          */
         $fields = array_diff($fields, ['id']);
-
-        $empty = new DiseaseGroup;
-        $empty->fill(array_combine($fields, array_fill(0, count($fields), null)));
-
-        $entries = array_combine(range(1, $amount), array_fill(1, $amount, $empty));
 
         $viewData = [
             'title' => 'disease_group',
             'route' => 'disease.group',
             'fields' => $fields,
             'amount' => $amount,
-            'entries' => $entries,
-            'empty' => true
         ];
 
-        return view('generic.create_or_edit', $viewData);
+        return view('generic.create', $viewData);
     }
 
     /**

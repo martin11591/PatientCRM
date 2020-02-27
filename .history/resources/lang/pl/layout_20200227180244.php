@@ -15,8 +15,6 @@ return [
     'actions' => 'Akcje',
     'action' => 'Akcja',
 
-    'per_page' => 'Na stronę',
-
     'patients' => 'Pacjenci',
     'diseases' => 'Choroby',
     'disease' => 'Choroba',
@@ -28,8 +26,8 @@ return [
     'medicine' => 'Lek',
     'medicine_groups' => 'Grupy leków',
     'medicine_group_name' => 'Nazwa grupy leków',
-    'add_medicine_group' => '{1} Dodaj grupę leków|[2,*] Dodaj grupy leków',
-    'edit_medicine_group' => '{1} Edytuj grupę leków|[2,*] Edytuj grupy leków',
+    'add_medicine_group' => '{1} Dodaj grupę leku|[2,*] Dodaj grupy leków',
+    'edit_medicine_group' => '{1} Edytuj grupę leku|[2,*] Edytuj grupy leków',
     'price' => 'Cena',
     'price_value_common' => ':price zł',
     'visits' => 'Wizyty',

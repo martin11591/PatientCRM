@@ -62,7 +62,6 @@
         {{ $perPage != 10 ? $entries->appends(['perPage' => $perPage])->links() : $entries->links() }}
     </section>
     @endif
-    @include('partials.per_page')
 @endsection
 
 @section('js')

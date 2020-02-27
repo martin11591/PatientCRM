@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\DiseaseGroup;
+use App\MedicineGroup;
 use Illuminate\Http\Request;
 use App\Http\Traits\MultiSelectTrait;
 use App\Http\Traits\MassActionTrait;
 
-class DiseaseGroupController extends Controller
+class MedicineGroupController extends Controller
 {
     use MultiSelectTrait;
     use MassActionTrait;
-
+    
     public function __construct() {
         $this->middleware(['auth', 'verified']);
     }
@@ -23,18 +23,17 @@ class DiseaseGroupController extends Controller
      */
     public function index(Request $request)
     {
-        // $diseases = Disease::all();
         $perPage = intval($request->input('perPage', 10));
         if (is_nan($perPage)) $perPage = 10;
-        $diseaseGroups = DiseaseGroup::paginate($perPage);
+        $medicineGroups = MedicineGroup::paginate($perPage);
         
         $fields = [];
-        if (isset($diseaseGroups[0])) $fields = array_diff(array_keys($diseaseGroups[0]->getAttributes()), ['id']);
+        if (isset($medicineGroups[0])) $fields = array_diff(array_keys($medicineGroups[0]->getAttributes()), ['id']);
 
         return view('generic.table_show', [
-            'title' => 'disease_group',
-            'route' => 'disease.group',
-            'entries' => $diseaseGroups,
+            'title' => 'medicine_group',
+            'route' => 'medicine.group',
+            'entries' => $medicineGroups,
             'fields' => $fields,
             'perPage' => $perPage,
         ]);
@@ -53,25 +52,24 @@ class DiseaseGroupController extends Controller
         /**
          * Get columns from model table
          */
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new DiseaseGroup)->table);
+        $fields = \DB::getSchemaBuilder()->getColumnListing((new MedicineGroup)->table);
 
         /**
-         * HiDe columns which shouldn't be edited
+         * Hide columns which shouldn't be edited
          */
         $fields = array_diff($fields, ['id']);
 
-        $empty = new DiseaseGroup;
+        $empty = new MedicineGroup;
         $empty->fill(array_combine($fields, array_fill(0, count($fields), null)));
 
-        $entries = array_combine(range(1, $amount), array_fill(1, $amount, $empty));
+        dd($empty->toArray());
 
         $viewData = [
-            'title' => 'disease_group',
-            'route' => 'disease.group',
+            'title' => 'medicine_group',
+            'route' => 'medicine.group',
             'fields' => $fields,
             'amount' => $amount,
-            'entries' => $entries,
-            'empty' => true
+            'entries' => [$empty]
         ];
 
         return view('generic.create_or_edit', $viewData);
@@ -93,7 +91,7 @@ class DiseaseGroupController extends Controller
         foreach ($request->entry as $entry) {
             \DB::beginTransaction();
             try {
-                DiseaseGroup::create($entry);
+                MedicineGroup::create($entry);
                 $succeed++;
                 \DB::commit();
             } catch (\Exception $e) {
@@ -105,16 +103,16 @@ class DiseaseGroupController extends Controller
         
         $messages = array_merge($this->createMessage(['success' => $succeed, 'fail' => $failed]));
 
-        return redirect()->route('disease.group.index')->with('messages', $messages);
+        return redirect()->route('medicine.group.index')->with('messages', $messages);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\DiseaseGroup  $diseaseGroup
+     * @param  \App\MedicineGroup  $medicineGroup
      * @return \Illuminate\Http\Response
      */
-    public function show(DiseaseGroup $diseaseGroup)
+    public function show(MedicineGroup $medicineGroup)
     {
         //
     }
@@ -122,18 +120,18 @@ class DiseaseGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DiseaseGroup  $diseaseGroup
+     * @param  \App\MedicineGroup  $medicineGroup
      * @return \Illuminate\Http\Response
      */
-    public function edit($diseaseGroup, Request $request)
+    public function edit($medicineGroup, Request $request)
     {
-        $params = $this->getIDsList($diseaseGroup, $request);
+        $params = $this->getIDsList($medicineGroup, $request);
         
-        $diseaseGroups = DiseaseGroup::find($params);
+        $medicineGroups = MedicineGroup::find($params);
 
         $results = [
-            // 'success' => count($diseases),
-            'not_found' => count($params) - count($diseaseGroups)
+            // 'success' => count($medicines),
+            'not_found' => count($params) - count($medicineGroups)
         ];
         
         $messages = $this->createMessage($results);
@@ -141,7 +139,7 @@ class DiseaseGroupController extends Controller
         /**
          * Get columns from model table
          */
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new DiseaseGroup)->table);
+        $fields = \DB::getSchemaBuilder()->getColumnListing((new MedicineGroup)->table);
 
         /**
          * Hide columns which shouldn't be edited
@@ -149,9 +147,9 @@ class DiseaseGroupController extends Controller
         $fields = array_diff($fields, ['id']);
 
         $viewData = [
-            'title' => 'disease_group',
-            'route' => 'disease.group',
-            'entries' => $diseaseGroups,
+            'title' => 'medicine_group',
+            'route' => 'medicine.group',
+            'entries' => $medicineGroups,
             'fields' => $fields,
             'messages' => $messages
         ];
@@ -163,17 +161,17 @@ class DiseaseGroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DiseaseGroup  $diseaseGroup
+     * @param  \App\MedicineGroup  $medicineGroup
      * @return \Illuminate\Http\Response
      */
-    public function update($diseaseGroup, Request $request)
+    public function update($medicineGroup, Request $request)
     {
         $params = $this->getIDsList(implode("/", array_keys($request['entry'])), $request);
         
-        $diseaseGroups = DiseaseGroup::find($params);
+        $medicineGroups = MedicineGroup::find($params);
 
         $results = [
-            'not_found' => count($params) - count($diseaseGroups)
+            'not_found' => count($params) - count($medicineGroups)
         ];
         
         \DB::beginTransaction();
@@ -183,7 +181,7 @@ class DiseaseGroupController extends Controller
         $messages = [];
 
         try {
-            foreach ($diseaseGroups as $entry) {
+            foreach ($medicineGroups as $entry) {
                 $entry->update($request
                 ['entry'][$entry->id]);
                 $succeed++;
@@ -195,32 +193,32 @@ class DiseaseGroupController extends Controller
             array_push($messages, $e->getMessage());
         }
 
-        $results['success'] = $succeed;
+        $result['success'] = $succeed;
 
         $messages = array_merge($messages, $this->createMessage($results));
 
-        return redirect()->route('disease.group.index')->with('messages', $messages);
+        return redirect()->route('medicine.group.index')->with('messages', $messages);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DiseaseGroup  $diseaseGroup
+     * @param  \App\MedicineGroup  $medicineGroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy($diseaseGroups, Request $request)
+    public function destroy($medicineGroups, Request $request)
     {
-        $params = $this->getIDsList($diseaseGroups, $request);
+        $params = $this->getIDsList($medicineGroups, $request);
         
         /**
          * Get all specified entries
          */
-        $groups = DiseaseGroup::find($params);
+        $groups = MedicineGroup::find($params);
 
         /**
          * Do job on every item
-         * Route param 'disease' ($diseaseGroups)
-         * Becomes Disease model entry
+         * Route param 'medicine' ($medicineGroups)
+         * Becomes medicine model entry
          */
 
         $results = $this->process($groups, function($item) {
@@ -233,6 +231,6 @@ class DiseaseGroupController extends Controller
             'success' => 'layout.items_delete_success',
         ]);
         
-        return redirect(route('disease.group.index'))->with(['messages' => $messages]);
+        return redirect(route('medicine.group.index'))->with(['messages' => $messages]);
     }
 }

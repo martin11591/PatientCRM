@@ -15,8 +15,6 @@ return [
     'actions' => 'Akcje',
     'action' => 'Akcja',
 
-    'per_page' => 'Na stronę',
-
     'patients' => 'Pacjenci',
     'diseases' => 'Choroby',
     'disease' => 'Choroba',
