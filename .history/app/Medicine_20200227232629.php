@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Medicine extends Model
 {
-    public $timestamps = false;
-    public $guarded = [];
+    protected $guarded = [];
     
     public function groups()
     {

@@ -141,7 +141,7 @@ class DiseaseGroupController extends Controller
         /**
          * Get columns from model table
          */
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new DiseaseGroup)->getTable());
+        $fields = \DB::getSchemaBuilder()->getColumnListing((new DiseaseGroup)->table);
 
         /**
          * Hide columns which shouldn't be edited

@@ -19,10 +19,11 @@
                         <hr>
                         @endif
                         @foreach ($fields as $field)
+                        @dump($loop->parent->index)
                             <div class="row my-2">
                                 <label class="mb-0 col-md-5 col-lg-4 font-weight-bold" for="entry-{{ ($entry->id ?? $loop->parent->index) }}-{{ $field }}">{{ __("layout.{$title}_$field") }}: </label>
                                 <div class="row col">
-                                    <input id="entry-{{ ($entry->id ?? $loop->parent->index) }}-{{ $field }}" name="entry[{{ ($entry->id ?? $loop->parent->index) }}][{{ $field }}]" value="{{ old("entry[" . ($entry->id ?? $loop->parent->index) . "][{$field}]") != "" ? old("entry[" . ($entry->id ?? $loop->parent->index) . "][{$field}]") : $entry->$field }}" class="form-control row" />@error($field)
+                                    <input id="entry-{{ ($entry->id ?? $loop->parent->index) }}-{{ $field }}" name="entry[{{ ($entry->id ?? $loop->parent->index) }}][{{ $field }}]" value="{{ old("entry[{($entry->id ?? $loop->index)}][{$field}]") != "" ? old("entry[{($entry->id ?? $loop->parent->index)}][{$field}]") : $entry->$field }}" class="form-control row" />@error($field)
                                     <p class="row text-danger">{{ $errors->first($field) }}</p>
                                 @enderror
                                 </div>

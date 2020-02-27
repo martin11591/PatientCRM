@@ -74,27 +74,7 @@ class MedicineController extends Controller
      */
     public function store(Request $request)
     {
-        $succeed = 0;
-        $failed = 0;
-
-        $messages = [];
-
-        foreach ($request->entry as $entry) {
-            \DB::beginTransaction();
-            try {
-                Medicine::create($entry);
-                $succeed++;
-                \DB::commit();
-            } catch (\Exception $e) {
-                array_push($messages, $e->getMessage());
-                $failed++;
-                \DB::rollBack();
-            }
-        }
-        
-        $messages = array_merge($this->createMessage(['success' => $succeed, 'fail' => $failed]));
-
-        return redirect()->route('medicine.index')->with('messages', $messages);
+        //
     }
 
     /**

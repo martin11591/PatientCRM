@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Medicine extends Model
+class Disease extends Model
 {
     public $timestamps = false;
     public $guarded = [];
     
     public function groups()
     {
-        return $this->belongsToMany('App\MedicineGroup', 'medicine_to_group', 'medicine_id', 'group_medicine_id');
+        return $this->belongsToMany('App\DiseaseGroup', 'disease_to_group', 'disease_id', 'disease_group_id');
     }
 }

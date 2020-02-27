@@ -19,6 +19,7 @@
                         <hr>
                         @endif
                         @foreach ($fields as $field)
+                        @dump($loop->parent->index)
                             <div class="row my-2">
                                 <label class="mb-0 col-md-5 col-lg-4 font-weight-bold" for="entry-{{ ($entry->id ?? $loop->parent->index) }}-{{ $field }}">{{ __("layout.{$title}_$field") }}: </label>
                                 <div class="row col">

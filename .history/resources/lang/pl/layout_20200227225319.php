@@ -28,8 +28,6 @@ return [
     'edit_disease_group' => '{1} Edytuj grupę chorób|[2,*] Edytuj grupy chorób',
     'medicines' => 'Leki',
     'medicine' => 'Lek',
-    'add_medicine' => '{1} Dodaj lek|[2,*] Dodaj leki',
-    'edit_medicine' => '{1} Edytuj lek|[2,*] Edytuj leki',
     'medicine_groups' => 'Grupy leków',
     'medicine_group_name' => 'Nazwa grupy leków',
     'add_medicine_group' => '{1} Dodaj grupę leków|[2,*] Dodaj grupy leków',

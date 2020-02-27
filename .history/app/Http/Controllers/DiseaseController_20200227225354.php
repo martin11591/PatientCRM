@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Medicine;
+use App\Disease;
+use App\DiseaseGroup;
 use Illuminate\Http\Request;
 use App\Http\Traits\MultiSelectTrait;
 use App\Http\Traits\MassActionTrait;
+use Illuminate\Support\Facades\Session;
 
-class MedicineController extends Controller
+class DiseaseController extends Controller
 {
     use MultiSelectTrait;
     use MassActionTrait;
@@ -23,10 +25,11 @@ class MedicineController extends Controller
      */
     public function index(Request $request)
     {
+        // $diseases = Disease::all();
         $perPage = intval($request->input('perPage', 10));
         if (is_nan($perPage)) $perPage = 10;
-        $medicines = Medicine::with('groups')->paginate($perPage);
-        return view('medicine.index', ['medicines' => $medicines, 'perPage' => $perPage]);
+        $diseases = Disease::with('groups')->paginate($perPage);
+        return view('disease.index', ['diseases' => $diseases, 'perPage' => $perPage]);
     }
 
     /**
@@ -42,21 +45,23 @@ class MedicineController extends Controller
         /**
          * Get columns from model table
          */
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new Medicine)->getTable());
+        $fields = \DB::getSchemaBuilder()->getColumnListing((new Disease)->table);
+
+        dd($fields);
 
         /**
          * Hide columns which shouldn't be edited
          */
         $fields = array_diff($fields, ['id']);
 
-        $empty = new Medicine;
+        $empty = new Disease;
         $empty->fill(array_combine($fields, array_fill(0, count($fields), null)));
 
         $entries = array_combine(range(1, $amount), array_fill(1, $amount, $empty));
 
         $viewData = [
-            'title' => 'medicine',
-            'route' => 'medicine',
+            'title' => 'disease',
+            'route' => 'disease',
             'fields' => $fields,
             'amount' => $amount,
             'entries' => $entries,
@@ -74,36 +79,16 @@ class MedicineController extends Controller
      */
     public function store(Request $request)
     {
-        $succeed = 0;
-        $failed = 0;
-
-        $messages = [];
-
-        foreach ($request->entry as $entry) {
-            \DB::beginTransaction();
-            try {
-                Medicine::create($entry);
-                $succeed++;
-                \DB::commit();
-            } catch (\Exception $e) {
-                array_push($messages, $e->getMessage());
-                $failed++;
-                \DB::rollBack();
-            }
-        }
-        
-        $messages = array_merge($this->createMessage(['success' => $succeed, 'fail' => $failed]));
-
-        return redirect()->route('medicine.index')->with('messages', $messages);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function show(Medicine $medicine)
+    public function show(Disease $disease)
     {
         //
     }
@@ -111,32 +96,60 @@ class MedicineController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicine $medicine)
+    public function edit($disease, Request $request)
     {
-        return view('medicine.edit', [
-            'fields' => array_diff(array_keys($medicine->getAttributes()), ['id']),
-            'medicine' => $medicine
-        ]);
+        $params = $this->getIDsList($disease, $request);
+        
+        $diseases = Disease::with('groups')->find($params);
+        $groupsModel = DiseaseGroup::all();
+        $groups = [];
+        
+        foreach ($groupsModel as $item) $groups[$item->id] = $item->name;
+        
+        $results = [
+            // 'success' => count($diseases),
+            'not_found' => count($params) - count($diseases)
+        ];
+        
+        $messages = $this->createMessage($results);
+        
+        $fields = [];
+        if (isset($diseases[0])) $fields = array_diff(array_keys($diseases[0]->getAttributes()), ['id']);
+        
+        if (isset($groupsModel[0])) {
+            $fields["groups"] = array_diff(array_keys($groupsModel[0]->getAttributes()), ['id']);
+        }
+
+        $viewData = [
+            'entries' => [],
+            'relation' => 'groups',
+            'groups' => $groups,
+            'fields' => $fields,
+            'messages' => $messages
+        ];
+        foreach ($diseases as $disease) $viewData['entries'][$disease->id] = $disease;
+
+        return view('disease.edit', $viewData);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function update($medicine, Request $request)
+    public function update($disease, Request $request)
     {
         $params = $this->getIDsList(implode("/", array_keys($request['entry'])), $request);
         
-        $medicines = Disease::with('groups')->find($params);
+        $diseases = Disease::with('groups')->find($params);
 
         $results = [
-            'not_found' => count($params) - count($medicines)
+            'not_found' => count($params) - count($diseases)
         ];
 
         $succeed = 0;
@@ -146,9 +159,11 @@ class MedicineController extends Controller
 
         \DB::beginTransaction();
 
-        foreach ($medicines as $medicine) {
+        foreach ($diseases as $disease) {
             try {
-                $medicine->groups()->sync(array_filter($request['entry'][$medicine->id]['groups'], function($item) {
+                $disease->fill(['name' => $request['entry'][$disease->id]['name']]);
+                $disease->save();
+                $disease->groups()->sync(array_filter($request['entry'][$disease->id]['groups'], function($item) {
                     if ($item !== null) return true;
                     return false;
                 }));
@@ -156,7 +171,7 @@ class MedicineController extends Controller
                 \DB::commit();
             } catch (\Exception $e) {
                 \DB::rollBack();
-                array_push($messages, $medicine->id . " => " . $e->getMessage());
+                array_push($messages, $disease->id . " => " . $e->getMessage());
                 $failed++;
             }
         }
@@ -168,40 +183,48 @@ class MedicineController extends Controller
 
         if ($succeed == 0 && $failed == 0) array_push($messages, __('layout.no_changes'));
         
-        return redirect()->route('medicine.edit', implode("/", $params))->with('messages', $messages);
+        return redirect()->route('disease.edit', implode("/", $params))->with('messages', $messages);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Medicine  $medicine
+     * @param  \App\Disease  $disease
      * @return \Illuminate\Http\Response
      */
-    public function destroy($medicine, Request $request)
+    public function destroy($disease, Request $request)
     {
-        $params = $this->getIDsList($medicine, $request);
+        $params = $this->getIDsList($disease, $request);
         
         /**
          * Get all specified entries
          */
-        $medicines = Medicine::find($params);
+        $diseases = Disease::find($params);
 
         /**
          * Do job on every item
-         * Route param 'disease' ($medicine)
+         * Route param 'disease' ($disease)
          * Becomes Disease model entry
          */
 
-        $results = $this->process($medicines, function($item) {
-            $item->delete();
+        $results = $this->process($diseases, function($item) {
+            \DB::beginTransaction();
+            try {
+                $item->groups()->detach();
+                $item->delete();
+                \DB::commit();
+            } catch (\Exception $e) {
+                \DB::rollBack();
+                throw new Exception ($e);
+            }
         });
-        $results['not_found'] = count($params) - count($medicines);
+        $results['not_found'] = count($params) - count($diseases);
 
         $messages = $this->createMessage($results, [
             'fail' => 'layout.items_delete_error',
             'success' => 'layout.items_delete_success',
         ]);
         
-        return redirect(route('medicine.index'))->with(['messages' => $messages]);
+        return redirect(route('disease.index'))->with(['messages' => $messages]);
     }
 }
