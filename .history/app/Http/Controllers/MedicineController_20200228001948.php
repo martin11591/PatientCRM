@@ -172,7 +172,7 @@ class MedicineController extends Controller
 
         $messages = [];
         
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new Medicine)->getTable());
+        $fields = \DB::getSchemaBuilder()->getColumnListing((new Disease)->getTable());
         $fields = array_diff($fields, ['id']);
 
         \DB::beginTransaction();

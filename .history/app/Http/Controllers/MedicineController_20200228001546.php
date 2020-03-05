@@ -172,18 +172,14 @@ class MedicineController extends Controller
 
         $messages = [];
         
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new Medicine)->getTable());
+        $fields = \DB::getSchemaBuilder()->getColumnListing((new Disease)->getTable());
         $fields = array_diff($fields, ['id']);
 
         \DB::beginTransaction();
 
         foreach ($medicines as $medicine) {
             try {
-                $entry = array_filter($request['entry'][$medicine->id], function($item) {
-                    if (gettype($item) == "array") return false;
-                    return true;
-                });
-                $medicine->fill(array_combine($fields, $entry));
+                $medicine->fill(['name' => $request['entry'][$medicine->id]['name']]);
                 $medicine->save();
                 $medicine->groups()->sync(array_filter($request['entry'][$medicine->id]['groups'], function($item) {
                     if ($item !== null) return true;

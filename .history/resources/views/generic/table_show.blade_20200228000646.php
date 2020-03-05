@@ -21,8 +21,8 @@
                 @foreach ($fields as $field)
                 <th class="align-middle" scope="col">{{ __("layout.{$title}_{$field}") }}</th>
                 @endforeach
-                <th class="align-middle" scope="col" data-orderable="false" data-searchable="false" style="width: 240px; width: 15rem">{{ __('layout.actions') }}
-                    <a href="{{ route("{$route}.create") }}" class="btn btn-success ml-1 mr-0"><i class="fas fa-fw fa-plus"></i></a>
+                <th class="align-middle" scope="col" data-orderable="false" data-searchable="false" style="width: 176px; width: 11rem">{{ __('layout.actions') }}
+                    <a href="{{ route("{$route}.create") }}" class="btn btn-success m-1"><i class="fas fa-fw fa-plus"></i></a>
                     <button type="submit" form="form_multi" class="btn btn-danger m-1">
                         <i class="fas fa-fw fa-times"></i>
                     </button>

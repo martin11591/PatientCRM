@@ -21,7 +21,7 @@
                 <th class="align-middle" scope="col">{{ __('layout.disease') }}</th>
                 <th class="align-middle" scope="col">{{ __('layout.groups') }}</th>
                 <th class="align-middle" scope="col" data-orderable="false" data-searchable="false">{{ __('layout.actions') }}
-                    <a href="{{ route("disease.create") }}" class="btn btn-success ml-1 mr-0"><i class="fas fa-fw fa-plus"></i></a>
+                    <a href="{{ route("disease.create") }}" class="btn btn-success m-1"><i class="fas fa-fw fa-plus"></i></a>
                     <button type="submit" form="form_multi" class="btn btn-danger m-1">
                         <i class="fas fa-fw fa-times"></i>
                     </button>

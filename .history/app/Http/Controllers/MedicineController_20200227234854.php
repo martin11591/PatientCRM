@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Medicine;
-use App\MedicineGroup;
 use Illuminate\Http\Request;
 use App\Http\Traits\MultiSelectTrait;
 use App\Http\Traits\MassActionTrait;
@@ -132,11 +131,12 @@ class MedicineController extends Controller
         
         $messages = $this->createMessage($results);
         
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new Medicine)->getTable());
-        $fields = array_diff($fields, ['id']);
+        $fields = [];
+        if (isset($medicines[0])) $fields = array_diff(array_keys($medicines[0]->getAttributes()), ['id']);
         
-        $fields["groups"] = \DB::getSchemaBuilder()->getColumnListing((new MedicineGroup)->getTable());
-        $fields["groups"] = array_diff($fields["groups"], ['id']);
+        if (isset($groupsModel[0])) {
+            $fields["groups"] = array_diff(array_keys($groupsModel[0]->getAttributes()), ['id']);
+        }
 
         $viewData = [
             'entries' => [],
@@ -147,7 +147,7 @@ class MedicineController extends Controller
         ];
         foreach ($medicines as $medicine) $viewData['entries'][$medicine->id] = $medicine;
 
-        return view('medicine.edit', $viewData);
+        return view('disease.edit', $viewData);
     }
 
     /**
@@ -161,7 +161,7 @@ class MedicineController extends Controller
     {
         $params = $this->getIDsList(implode("/", array_keys($request['entry'])), $request);
         
-        $medicines = Medicine::with('groups')->find($params);
+        $medicines = Disease::with('groups')->find($params);
 
         $results = [
             'not_found' => count($params) - count($medicines)
@@ -171,20 +171,11 @@ class MedicineController extends Controller
         $failed = 0;
 
         $messages = [];
-        
-        $fields = \DB::getSchemaBuilder()->getColumnListing((new Medicine)->getTable());
-        $fields = array_diff($fields, ['id']);
 
         \DB::beginTransaction();
 
         foreach ($medicines as $medicine) {
             try {
-                $entry = array_filter($request['entry'][$medicine->id], function($item) {
-                    if (gettype($item) == "array") return false;
-                    return true;
-                });
-                $medicine->fill(array_combine($fields, $entry));
-                $medicine->save();
                 $medicine->groups()->sync(array_filter($request['entry'][$medicine->id]['groups'], function($item) {
                     if ($item !== null) return true;
                     return false;

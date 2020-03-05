@@ -16,9 +16,9 @@ class Disease extends Model
 
     /**
      * METHODS FOR MODEL
-     */
+     *
     protected function index(int $perPage = 10) {
         if (is_nan($perPage)) $perPage = 10;
         return self::with('groups')->paginate($perPage);
-    }
+    }*/
 }
