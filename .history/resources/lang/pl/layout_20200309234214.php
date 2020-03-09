@@ -64,6 +64,4 @@ return [
     'patient_names' => '{1} Imię|[2,*] Imiona',
     'patient_surnames' => '{1} Nazwisko|[2,*] Nazwiska',
     'patient_phone' => 'Telefon',
-    'patient_doc_id' => 'Numer dowodu osobistego',
-    'patient_birth_date' => 'Data urodzenia',
 ];

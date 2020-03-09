@@ -31,12 +31,6 @@ Route::prefix('/profile')->name('profile.')->group(function() {
 
 Route::prefix('/patient')->name('patient.')->group(function() {
     Route::get('/', 'PatientController@index')->name('index');
-    Route::get('/', 'PatientController@index')->name('index');
-    Route::get('/create/{amount?}', 'PatientController@create')->where('amount', '.*')->name('create');
-    Route::post('/', 'PatientController@store')->name('store');
-    Route::get('/edit/{patient}', 'PatientController@edit')->where('patient', '.*')->name('edit');
-    Route::put('/{patient}', 'PatientController@update')->name('update');
-    Route::delete('/{patient}', 'PatientController@destroy')->where('patient', '.*')->name('delete');
 });
 
 Route::prefix('/disease')->name('disease.')->group(function() {
