@@ -53,19 +53,6 @@ Wartość
 KARTA PACJENTA
 =
 
-PACJENT -> PRZEBYTE CHOROBY
--
-
-ID użytkownika
-
-ID choroby
-
-Data od
-
-Data do
-
-Komentarz
-
 PACJENT -> ZAŻYWANE LEKI
 -
 
