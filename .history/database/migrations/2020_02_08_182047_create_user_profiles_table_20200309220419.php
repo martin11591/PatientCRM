@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Faker\Generator as Faker;
 
 class CreateUserProfilesTable extends Migration
 {
@@ -32,28 +33,27 @@ class CreateUserProfilesTable extends Migration
             $table->string('correspondence_city')->nullable();
             $table->string('correspondence_country')->nullable();
         });
-
-        $faker = Faker\Factory::create('pl_PL');
+        
+        $faker = new Faker;
 
         for ($i = 1; $i <= 100; $i++) {
-            $gender = ["male", "female"][round(random_int(0, 1))];
             DB::table('user_profiles')->insert([
                 // [1, '1', 'Marcin', 'Podraza', 'x', '1991-10-15 02:00:00', NULL, NULL, 'Polska', NULL, NULL, 'Polska', NULL, NULL, 'Polska'],
                 [
                     'user_id' => $i == 1 ? 1 : NULL,
-                    'phone' => $faker->phoneNumber(),
-                    'names' => $faker->firstName($gender),
-                    'surnames' => $faker->lastName($gender),
-                    'doc_id' => $faker->personalIdentityNumber(),
-                    'birth_date' => $faker->dateTimeBetween(),
-                    'birth_zip_code' => $faker->postcode(),
-                    'birth_city' => $faker->city(),
+                    'phone' => '1',
+                    'names' => $faker->firstName,
+                    'surnames' => $faker->lastName,
+                    'doc_id' => 'x',
+                    'birth_date' => '1999-12-31 23:00:00',
+                    'birth_zip_code' => NULL,
+                    'birth_city' => NULL,
                     'birth_country' => 'Polska',
-                    'registered_zip_code' => $faker->postcode(),
-                    'registered_city' => $faker->city(),
+                    'registered_zip_code' => NULL,
+                    'registered_city' => NULL,
                     'registered_country' => 'Polska',
-                    'correspondence_zip_code' => $faker->postcode(),
-                    'correspondence_city' => $faker->city(),
+                    'correspondence_zip_code' => NULL,
+                    'correspondence_city' => NULL,
                     'correspondence_country' => 'Polska'
                 ]
             ]);

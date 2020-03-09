@@ -42,8 +42,8 @@ class CreateUserProfilesTable extends Migration
                 [
                     'user_id' => $i == 1 ? 1 : NULL,
                     'phone' => $faker->phoneNumber(),
-                    'names' => $faker->firstName($gender),
-                    'surnames' => $faker->lastName($gender),
+                    'names' => $faker->firstName($gender);
+                    'surnames' => $faker->lastName($gender);
                     'doc_id' => $faker->personalIdentityNumber(),
                     'birth_date' => $faker->dateTimeBetween(),
                     'birth_zip_code' => $faker->postcode(),

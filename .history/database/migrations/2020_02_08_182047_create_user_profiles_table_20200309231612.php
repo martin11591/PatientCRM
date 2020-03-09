@@ -36,14 +36,13 @@ class CreateUserProfilesTable extends Migration
         $faker = Faker\Factory::create('pl_PL');
 
         for ($i = 1; $i <= 100; $i++) {
-            $gender = ["male", "female"][round(random_int(0, 1))];
             DB::table('user_profiles')->insert([
                 // [1, '1', 'Marcin', 'Podraza', 'x', '1991-10-15 02:00:00', NULL, NULL, 'Polska', NULL, NULL, 'Polska', NULL, NULL, 'Polska'],
                 [
                     'user_id' => $i == 1 ? 1 : NULL,
                     'phone' => $faker->phoneNumber(),
-                    'names' => $faker->firstName($gender),
-                    'surnames' => $faker->lastName($gender),
+                    'names' => $faker->firstName(),
+                    'surnames' => $faker->lastName(),
                     'doc_id' => $faker->personalIdentityNumber(),
                     'birth_date' => $faker->dateTimeBetween(),
                     'birth_zip_code' => $faker->postcode(),

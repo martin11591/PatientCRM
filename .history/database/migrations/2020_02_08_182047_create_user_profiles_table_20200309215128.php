@@ -33,35 +33,9 @@ class CreateUserProfilesTable extends Migration
             $table->string('correspondence_country')->nullable();
         });
 
-        $faker = Faker\Factory::create('pl_PL');
-
-        for ($i = 1; $i <= 100; $i++) {
-            $gender = ["male", "female"][round(random_int(0, 1))];
-            DB::table('user_profiles')->insert([
-                // [1, '1', 'Marcin', 'Podraza', 'x', '1991-10-15 02:00:00', NULL, NULL, 'Polska', NULL, NULL, 'Polska', NULL, NULL, 'Polska'],
-                [
-                    'user_id' => $i == 1 ? 1 : NULL,
-                    'phone' => $faker->phoneNumber(),
-                    'names' => $faker->firstName($gender),
-                    'surnames' => $faker->lastName($gender),
-                    'doc_id' => $faker->personalIdentityNumber(),
-                    'birth_date' => $faker->dateTimeBetween(),
-                    'birth_zip_code' => $faker->postcode(),
-                    'birth_city' => $faker->city(),
-                    'birth_country' => 'Polska',
-                    'registered_zip_code' => $faker->postcode(),
-                    'registered_city' => $faker->city(),
-                    'registered_country' => 'Polska',
-                    'correspondence_zip_code' => $faker->postcode(),
-                    'correspondence_city' => $faker->city(),
-                    'correspondence_country' => 'Polska'
-                ]
-            ]);
-        }
-
-        DB::table('user_to_group')->insert([
-            ['user_id' => 1, 'group_id' => 1], // SUPERUSER
-            ['user_id' => 1, 'group_id' => 4], // PATIENT
+        DB::table('user_profiles')->insert([
+            [1, '1', 'Marcin', 'Podraza', 'x', '1991-10-15 02:00:00', NULL, NULL, 'Polska', NULL, NULL, 'Polska', NULL, NULL, 'Polska'],
+            [3, '1', 'mDev', 'mDev', 'x', '1999-12-31 23:00:00', NULL, NULL, 'Polska', NULL, NULL, 'Polska', NULL, NULL, 'Polska'],
         ]);
     }
 
